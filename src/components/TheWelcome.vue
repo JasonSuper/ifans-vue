@@ -10,77 +10,66 @@ import SupportIcon from './icons/IconSupport.vue'
 <template>
   <WelcomeItem>
     <template #icon>
-      <DocumentationIcon />
+<!--      <DocumentationIcon />-->
+      <img class="idolicon" src="https://www.hjxsuper.top/img/ikun.webp">
     </template>
-    <template #heading>Documentation</template>
+    <template #heading>蔡徐坤</template>
 
-    Vue’s
-    <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
-    provides you with all information you need to get started.
+    <div class="shsj">“巅峰迎来虚伪的拥护，黄昏见证忠实的信徒”，一个真正的man，一个真正的男人，他清楚自己要做什么，如果你真的想要看这个人，是一个男孩还是男人？不要去看他的body，看他的心</div>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
-      <ToolingIcon />
+<!--      <ToolingIcon />-->
+      <img class="idolicon" src="https://www.hjxsuper.top/img/xiaozhan.png">
     </template>
-    <template #heading>Tooling</template>
+    <template #heading>肖战</template>
 
-    This project is served and bundled with
-    <a href="https://vitejs.dev/guide/features.html" target="_blank" rel="noopener">Vite</a>. The
-    recommended IDE setup is
-    <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VSCode</a> +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank" rel="noopener">Volar</a>. If
-    you need to test your components and web pages, check out
-    <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a> and
-    <a href="https://on.cypress.io/component" target="_blank">Cypress Component Testing</a>.
-
-    <br />
-
-    More instructions are available in <code>README.md</code>.
+    <div class="shsj">我对自己长时间地处于一个不太自信的状态，因为我不是科班出身的，所以老是对自己有那么一点点的自我怀疑，所以比别人更在乎、想要被看到</div>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
-      <EcosystemIcon />
+<!--      <EcosystemIcon />-->
+      <img class="idolicon" src="https://www.hjxsuper.top/img/wje.png">
     </template>
-    <template #heading>Ecosystem</template>
+    <template #heading>王嘉尔</template>
 
-    Get official tools and libraries for your project:
-    <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>,
-    <a href="https://router.vuejs.org/" target="_blank" rel="noopener">Vue Router</a>,
-    <a href="https://test-utils.vuejs.org/" target="_blank" rel="noopener">Vue Test Utils</a>, and
-    <a href="https://github.com/vuejs/devtools" target="_blank" rel="noopener">Vue Dev Tools</a>. If
-    you need more resources, we suggest paying
-    <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Awesome Vue</a>
-    a visit.
+    <div class="shsj">累的时侯真的有问过自己，做这么多事是否都值得，每次都跟自己说很开心，这么多人爱护我，真的为了他们，不想让他们失望，不想让他们到外面说‘我是王嘉尔的粉丝’而因为这句话看不起她们，我只想让他们为我感到骄傲。所以我才去拼命</div>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
-      <CommunityIcon />
+<!--      <CommunityIcon />-->
+      <img class="idolicon" src="https://www.hjxsuper.top/img/hzt.webp">
     </template>
-    <template #heading>Community</template>
+    <template #heading>黄子韬</template>
 
-    Got stuck? Ask your question on
-    <a href="https://chat.vuejs.org" target="_blank" rel="noopener">Vue Land</a>, our official
-    Discord server, or
-    <a href="https://stackoverflow.com/questions/tagged/vue.js" target="_blank" rel="noopener"
-      >StackOverflow</a
-    >. You should also subscribe to
-    <a href="https://news.vuejs.org" target="_blank" rel="noopener">our mailing list</a> and follow
-    the official
-    <a href="https://twitter.com/vuejs" target="_blank" rel="noopener">@vuejs</a>
-    twitter account for latest news in the Vue world.
+    <div class="shsj">我曾说过“一帆风不顺的人生才是真正的人生，不管结局如何”，2015年似乎是“一帆风不顺”的一年，它使我的人生经历了很多考验，但我感激它来的这么早，帮助我在今后走的更远更正。谢谢伴着我这艘小船的你们——我的VVHL</div>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
-      <SupportIcon />
+<!--      <SupportIcon />-->
+      <img class="idolicon" src="https://www.hjxsuper.top/img/zyx.webp">
     </template>
-    <template #heading>Support Vue</template>
+    <template #heading>张艺兴</template>
 
-    As an independent project, Vue relies on community backing for its sustainability. You can help
-    us by
-    <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
+    <div class="shsj">我不需要别人告诉我我该怎么活，我的选择成就了今天的我，我的故事，我的梦想，我的过错，我的成功，都属于我</div>
   </WelcomeItem>
 </template>
+
+<style>
+ .idolicon {
+   width: 47px;
+   height: 47px;
+   border-radius: 8px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+ }
+
+ .shsj {
+   width: 100%;
+   margin-left: 3%;
+ }
+</style>

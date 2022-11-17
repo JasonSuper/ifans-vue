@@ -8,9 +8,9 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
+      世界上有三种美，外在美，内在美，还有只因你太美。
+      <a href="javascript:void(0)" rel="noopener">早上好</a> +
+      <a href="javascript:void(0)" rel="noopener">晚上好</a>. 还有全民制作人们大家好!
     </h3>
   </div>
 </template>
@@ -18,7 +18,7 @@ defineProps<{
 <style scoped>
 h1 {
   font-weight: 500;
-  font-size: 2.6rem;
+  font-size: 2rem;
   top: -10px;
 }
 
