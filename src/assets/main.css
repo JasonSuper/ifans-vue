@@ -1,11 +1,12 @@
 @import "./base.css";
 
 #app {
-  max-width: 1280px;
+  max-width: 2560px;
   margin: 0 auto;
-  padding: 2rem;
-
   font-weight: normal;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 a,
@@ -21,13 +22,17 @@ a,
   }
 }
 
+
+
 @media (min-width: 1280px) {
   body {
-    display: flex;
-    place-items: start;
+    /*display: flex;
+    place-items: start;*/
+    background: #fff7f9;
   }
 
-  #app {
+  #all {
+    max-width: 1280px;
     display: grid;
     grid:
             'topbox topbox'

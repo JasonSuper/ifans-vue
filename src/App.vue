@@ -1,25 +1,28 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import TopBar from './components/topbar/TopBar.vue'
 </script>
 
 <template>
-  <div class="topbox">
-    <img alt="ifans logo" class="logo" src="https://www.hjxsuper.top/img/ifans.png" />
-  </div>
-
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="可乐要加冰，fans要用心" />
-
-      <nav>
-        <RouterLink to="/">应援</RouterLink>
-        <RouterLink to="/about">PK战斗</RouterLink>
-      </nav>
+  <TopBar></TopBar>
+  <div id="all">
+    <div class="topbox">
+      <img alt="ifans logo" class="logo" src="https://www.hjxsuper.top/img/ifans.png"/>
     </div>
-  </header>
 
-  <RouterView />
+    <header>
+      <div class="wrapper">
+        <HelloWorld msg="可乐要加冰，fans要用心"/>
+
+        <nav>
+          <RouterLink to="/">应援</RouterLink>
+          <RouterLink to="/about">PK战斗</RouterLink>
+        </nav>
+      </div>
+    </header>
+
+    <RouterView/>
+  </div>
 </template>
 
 <style scoped>
@@ -76,7 +79,6 @@ nav a:first-of-type {
   /*.logo {
     margin: 0 0rem 0 0;
   }*/
-
   header .wrapper {
     display: flex;
     place-items: flex-start;
