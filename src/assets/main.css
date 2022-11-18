@@ -9,6 +9,10 @@
   justify-content: center;
 }
 
+#all {
+  padding: 0 2rem;
+}
+
 a,
 .green {
   text-decoration: none;

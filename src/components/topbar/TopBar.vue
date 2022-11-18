@@ -10,19 +10,21 @@
         :ellipsis="false"
         @select="handleSelect"
     >
-      <el-menu-item index="1">会员中心</el-menu-item>
-      <el-sub-menu index="2">
+      <el-sub-menu index="1">
         <template #title>偶像专区</template>
-        <el-menu-item index="2-1">男星区</el-menu-item>
-        <el-menu-item index="2-2">女星区</el-menu-item>
-        <el-menu-item index="2-3">素人区</el-menu-item>
+        <el-menu-item index="1-1">男星区</el-menu-item>
+        <el-menu-item index="1-2">女星区</el-menu-item>
+        <el-menu-item index="1-3">素人区</el-menu-item>
       </el-sub-menu>
-      <el-menu-item index="3">消息</el-menu-item>
-      <el-menu-item index="4">fans商城</el-menu-item>
+
+      <el-menu-item index="2">体育区</el-menu-item>
 
       <div class="flex-grow" />
 
-      <li class="li-wapper"><el-button type="warning" plain>注册登录</el-button></li>
+      <el-menu-item index="3">fans商城</el-menu-item>
+      <el-menu-item index="4">消息</el-menu-item>
+      <el-menu-item index="5">会员中心</el-menu-item>
+      <li class="li-wapper" index="6"><el-button type="warning" plain>注册登录</el-button></li>
     </el-menu>
   </el-affix>
 </template>
@@ -30,7 +32,7 @@
 <script lang="ts" setup>
 import {ref, onMounted} from 'vue'
 
-const activeIndex = ref('1')
+const activeIndex = ref()
 const handleSelect = (key: String, keyPath: String[]) => {
   console.log(key, keyPath)
 }
