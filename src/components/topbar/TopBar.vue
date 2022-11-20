@@ -1,5 +1,5 @@
 <template>
-  <el-affix style="width: 100%;" :offset="0">
+  <el-affix style="" :offset="0" :style="{width: '100%', boxShadow: `var(--el-box-shadow)`}">
     <el-menu
         :default-active="activeIndex"
         class="el-menu-demo"
@@ -24,13 +24,22 @@
       <el-menu-item index="3">fans商城</el-menu-item>
       <el-menu-item index="4">消息</el-menu-item>
       <el-menu-item index="5">会员中心</el-menu-item>
-      <li class="li-wapper" index="6"><el-button type="warning" plain>注册登录</el-button></li>
+      <li class="li-wapper" index="6">
+        <el-button @click="dialogTableVisible = true" color="#ffe250" style="color: #fb7299"><span style="font-weight: bold">注册登录</span></el-button>
+      </li>
     </el-menu>
   </el-affix>
+
+  <el-dialog v-model="dialogTableVisible" width="620" style="border-radius: 8px">
+    <Register></Register>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import {ref, onMounted} from 'vue'
+import Register from '../login'
+
+let dialogTableVisible = ref(false);
 
 const activeIndex = ref()
 const handleSelect = (key: String, keyPath: String[]) => {
@@ -50,5 +59,9 @@ const handleSelect = (key: String, keyPath: String[]) => {
 
 .li-wapper button {
   margin: 0 10px 0 10px;
+}
+
+.el-dialog__body {
+  padding: 0 0 25px 0 !important;
 }
 </style>

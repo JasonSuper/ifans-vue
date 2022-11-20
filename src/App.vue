@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TopBar from './components/topbar/TopBar.vue'
-</script>
-
 <template>
   <TopBar></TopBar>
   <div id="all">
@@ -24,6 +19,13 @@ import TopBar from './components/topbar/TopBar.vue'
     <RouterView/>
   </div>
 </template>
+
+
+<script setup lang="ts">
+import HelloWorld from './components/HelloWorld.vue'
+import TopBar from './components/topbar/TopBar.vue'
+</script>
+
 
 <style scoped>
 .topbox {
