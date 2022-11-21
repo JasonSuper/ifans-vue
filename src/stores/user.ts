@@ -1,6 +1,5 @@
 import {getInfo, login, logout} from '@/api/login'
 import {getToken, removeToken, setToken} from '@/utils/auth'
-import defAva from '@/assets/images/profile.jpg'
 import {defineStore} from "pinia";
 
 const useUserStore = defineStore(
@@ -34,7 +33,7 @@ const useUserStore = defineStore(
                 return new Promise((resolve, reject) => {
                     getInfo().then(res => {
                         const user = res.user
-                        const avatar = (user.avatar == "" || user.avatar == null) ? defAva : user.avatar;
+                        const avatar = (user.avatar == "" || user.avatar == null) ? 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png' : user.avatar;
 
                         if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
                             this.roles = res.roles
