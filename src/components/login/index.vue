@@ -1,162 +1,169 @@
 <template>
-  <div class="login-box">
-    <div class="login">
-      <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
-<!--        <h3 class="title">哥哥，这世上一切美好的事情，你的脸就占90%</h3>-->
-        <div class="loginbg-box">
-          <img class="loginbg" src="https://hjxsuper.top/img/loginbg.webp">
-        </div>
-        <el-form-item prop="username">
-          <el-input
-              v-model="loginForm.username"
-              type="text"
-              size="large"
-              auto-complete="off"
-              placeholder="账号"
-          >
-            <template #prefix>
-              <svg-icon icon-class="user" class="el-input__icon input-icon"/>
-            </template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item prop="password">
-          <el-input
-              v-model="loginForm.password"
-              type="password"
-              size="large"
-              auto-complete="off"
-              placeholder="密码"
-              @keyup.enter="handlelogin"
-          >
-            <template #prefix>
-              <svg-icon icon-class="password" class="el-input__icon input-icon"/>
-            </template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item style="width:100%;">
-          <el-button :loading="loading" size="large" style="width:48%; padding-right: 2%" @click.prevent="handlelogin">
-            <span v-if="!loading">注 册</span>
-            <span v-else>注 册 中...</span>
-          </el-button>
-
-          <el-button size="large" color="#fb7299" style="width: 48%"><span style="color: #fff;">登录</span></el-button>
-        </el-form-item>
-      </el-form>
+  <el-dialog v-model="dialogVisible" width="820" style="border-radius: 8px">
+    <div class="flagbox">
+      <div style="margin-left: 1rem">喜欢，唱，跳rap！</div>
+      <div>加入ifans</div>
     </div>
+    <div class="login-box">
+      <div class="loginbg-box">
+        <img class="loginbg" src="https://hjxsuper.top/img/0.gif">
+      </div>
 
-    <div class="otherLoginType">
-      <span>其他登录方式</span>
+      <div class="login">
+        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
+          <!--        <h3 class="title">哥哥，这世上一切美好的事情，你的脸就占90%</h3>-->
+          <el-form-item prop="username">
+            <el-input
+                v-model="loginForm.username"
+                type="text"
+                size="large"
+                auto-complete="off"
+                placeholder="账号"
+            >
+              <template #prefix>
+                <svg-icon icon-class="user" class="el-input__icon input-icon"/>
+              </template>
+            </el-input>
+          </el-form-item>
 
-      <div class="logintype-items">
-        <div class="logintype-item"><img src="https://hjxsuper.top/img/weixinicon.png"/><span>微信登录</span></div>
-        <div class="logintype-item"><img src="https://hjxsuper.top/img/QQicon.png"/><span>QQ登录</span></div>
+          <el-form-item prop="password">
+            <el-input
+                v-model="loginForm.password"
+                type="password"
+                size="large"
+                auto-complete="off"
+                placeholder="密码"
+                @keyup.enter="handleLogin"
+            >
+              <template #prefix>
+                <svg-icon icon-class="password" class="el-input__icon input-icon"/>
+              </template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item style="width:100%;">
+<!--            <el-button :loading="loading" size="large" style="width:48%; margin-right: 1%" @click.prevent="handleregister">
+              <span v-if="!loading">注 册</span>
+              <span v-else>注 册 中...</span>
+            </el-button>-->
+
+            <el-button size="large" style="width:48%; margin-right: 1%"><span>注 册</span></el-button>
+            <el-button @click="handleLogin" size="large" color="#fb7299" style="width: 48%"><span style="color: #fff;">登录</span></el-button>
+          </el-form-item>
+        </el-form>
+
+        <div class="otherLoginType">
+          <span>其他登录方式</span>
+
+          <div class="logintype-items">
+            <div class="logintype-item"><img src="https://hjxsuper.top/img/weixinicon.png"/><span>微信登录</span></div>
+            <div class="logintype-item"><img src="https://hjxsuper.top/img/QQicon.png"/><span>QQ登录</span></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </el-dialog>
 </template>
 
 
 <script lang="ts" setup>
 import {ElMessageBox} from "element-plus";
-import {ref, watch} from 'vue';
+import {getCurrentInstance, ref, watch} from 'vue';
+import {login, logout} from '@/api/login'
+import useUserStore from '@/stores/user'
+import {useRouter} from "vue-router";
 
-//let dialogTableVisible = ref(false);
+let dialogVisible = ref(false);
 
-/*const props = defineProps({
-  isShow: {type: Boolean, default: "false"}
-});*/
+const userStore = useUserStore()
+const router = useRouter();
+const { proxy } = getCurrentInstance();
+
+const redirect = ref(undefined);
 
 const loginForm = ref({
   username: "",
-  password: "",
-  confirmPassword: "",
-  code: "",
-  uuid: ""
+  password: ""
 });
 
-const equalToPassword = (rule, value, callback) => {
-  if (loginForm.value.password !== value) {
-    callback(new Error("两次输入的密码不一致"));
-  } else {
-    callback();
-  }
-};
-
 const loginRules = {
-  username: [
-    {required: true, trigger: "blur", message: "请输入您的账号"},
-    {min: 2, max: 20, message: "用户账号长度必须介于 2 和 20 之间", trigger: "blur"}
-  ],
-  password: [
-    {required: true, trigger: "blur", message: "请输入您的密码"},
-    {min: 5, max: 20, message: "用户密码长度必须介于 5 和 20 之间", trigger: "blur"}
-  ],
-  confirmPassword: [
-    {required: true, trigger: "blur", message: "请再次输入您的密码"},
-    {required: true, validator: equalToPassword, trigger: "blur"}
-  ],
-  code: [{required: true, trigger: "change", message: "请输入验证码"}]
+  username: [{required: true, trigger: "blur", message: "请输入您的账号"}],
+  password: [{required: true, trigger: "blur", message: "请输入您的密码"}]
 };
 
-/*watch(props.isShow, (newVal, oldVal) => {
-  dialogTableVisible = newVal;
-});*/
+const open = () => {
+  dialogVisible.value = true
+}
 
-function handlelogin() {
+defineExpose({ open });
+
+function handleLogin() {
   proxy.$refs.loginRef.validate(valid => {
     if (valid) {
-      loading.value = true;
-      login(loginForm.value).then(res => {
-        const username = loginForm.value.username;
-        ElMessageBox.alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", "系统提示", {
-          dangerouslyUseHTMLString: true,
-          type: "success",
-        }).then(() => {
-          router.push("/login");
-        }).catch(() => {
-        });
-      }).catch(() => {
-        loading.value = false;
-        /*if (captchaEnabled) {
-          getCode();
-        }*/
-      });
+      //loading.value = true;
+      // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码
+      /*if (loginForm.value.rememberMe) {
+        Cookies.set("username", loginForm.value.username, {expires: 30});
+        Cookies.set("password", encrypt(loginForm.value.password), {expires: 30});
+        Cookies.set("rememberMe", loginForm.value.rememberMe, {expires: 30});
+      } else {
+        // 否则移除
+        Cookies.remove("username");
+        Cookies.remove("password");
+        Cookies.remove("rememberMe");
+      }*/
+      // 调用action的登录方法
+      userStore.login(loginForm.value).then(() => {
+        router.push({path: redirect.value || "/"});
+        dialogVisible.value = false;
+      })
     }
   });
 }
-
-/*function getCode() {
-  getCodeImg().then(res => {
-    captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled;
-    if (captchaEnabled.value) {
-      codeUrl.value = "data:image/gif;base64," + res.img;
-      loginForm.value.uuid = res.uuid;
-    }
-  });
-}*/
-
-//getCode();
 </script>
 
 <style lang='scss' scoped>
+.flagbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 325px;
+  margin: 0 auto;
+  padding: 0 0 1rem 2rem;
+}
+
+.flagbox div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 2rem;
+
+  background: linear-gradient(to left, #d3959b, #bfe6ba);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  width: 100%;
+}
+
 .loginbg-box {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+  width: 45%;
 }
 
 .loginbg {
-  width: 150px;
-  height: 150px;
-  border-radius: 200px;
+  width: 250px;
+  height: 250px;
+  border-radius: 20px;
 }
 
 .login-box {
   display: flex;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
   justify-content: center;
   align-items: center;
 }
@@ -170,7 +177,7 @@ function handlelogin() {
   margin-top: 0.8rem;
 }
 
-.logintype-items{
+.logintype-items {
   display: flex;
   width: 100%;
   margin-top: 0.5rem;
@@ -191,10 +198,11 @@ function handlelogin() {
 
 .login {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 100%;
+  width: 70%;
   /*background-image: url("../assets/images/login-background.jpg");*/
   background-size: cover;
 }
@@ -246,5 +254,15 @@ function handlelogin() {
 .login-code-img {
   height: 40px;
   padding-left: 12px;
+}
+
+.el-dialog__body {
+  padding: 0 0 25px 0 !important;
+}
+
+.el-dialog__headerbtn {
+  top: 15px !important;
+  width: 20px !important;
+  height: 20px !important;
 }
 </style>

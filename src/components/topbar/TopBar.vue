@@ -19,32 +19,39 @@
 
       <el-menu-item index="2">体育区</el-menu-item>
 
-      <div class="flex-grow" />
+      <div class="flex-grow"/>
 
       <el-menu-item index="3">fans商城</el-menu-item>
       <el-menu-item index="4">消息</el-menu-item>
       <el-menu-item index="5">会员中心</el-menu-item>
+
       <li class="li-wapper" index="6">
-        <el-button @click="dialogTableVisible = true" color="#ffe250" style="color: #fb7299"><span style="font-weight: bold">注册登录</span></el-button>
+        <AvatarPopover v-if="userStore.token != null && userStore.token != ''"></AvatarPopover>
+        <el-button v-else @click="openDialog" color="#ffe250" style="color: #fb7299"><span style="font-weight: bold">注册登录</span></el-button>
       </li>
     </el-menu>
   </el-affix>
 
-  <el-dialog v-model="dialogTableVisible" width="620" style="border-radius: 8px">
-    <Register></Register>
-  </el-dialog>
+  <LoginDialog ref="sonLoginDialog"></LoginDialog>
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
-import Register from '../login'
+import LoginDialog from '../login'
+import AvatarPopover from '../avatar'
 
-let dialogTableVisible = ref(false);
+import {ref, onMounted, getCurrentInstance} from 'vue'
+import useUserStore from "@/stores/user";
+const userStore = useUserStore()
+
+// 调用函数，获取当前组件的实例proxy，这里的proxy类似于vue2中的this
+const {proxy} = getCurrentInstance()
 
 const activeIndex = ref()
 const handleSelect = (key: String, keyPath: String[]) => {
   console.log(key, keyPath)
 }
+
+const openDialog = () => proxy.$refs['sonLoginDialog'].open()
 </script>
 
 <style>
@@ -55,13 +62,10 @@ const handleSelect = (key: String, keyPath: String[]) => {
 .li-wapper {
   display: flex;
   place-items: center;
+  margin: 0 2rem 0 1rem;
 }
 
 .li-wapper button {
   margin: 0 10px 0 10px;
-}
-
-.el-dialog__body {
-  padding: 0 0 25px 0 !important;
 }
 </style>
