@@ -24,7 +24,7 @@ const userStore = useUserStore()
 
 function logout() {
   userStore.logOut().then(() => {
-    ElMessage.info("已登出")
+    ElMessage.success("已登出")
   });
 }
 </script>

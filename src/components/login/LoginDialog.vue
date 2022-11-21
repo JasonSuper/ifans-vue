@@ -67,9 +67,7 @@
 
 
 <script lang="ts" setup>
-import {ElMessageBox} from "element-plus";
 import {getCurrentInstance, ref, watch} from 'vue';
-import {login, logout} from '@/api/login'
 import useUserStore from '@/stores/user'
 import {useRouter} from "vue-router";
 
@@ -77,7 +75,7 @@ let dialogVisible = ref(false);
 
 const userStore = useUserStore()
 const router = useRouter();
-const { proxy } = getCurrentInstance();
+const { proxy }: any = getCurrentInstance();
 
 const redirect = ref(undefined);
 
@@ -98,7 +96,7 @@ const open = () => {
 defineExpose({ open });
 
 function handleLogin() {
-  proxy.$refs.loginRef.validate(valid => {
+  proxy.$refs["loginRef"].validate((valid: boolean) => {
     if (valid) {
       //loading.value = true;
       // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码

@@ -36,15 +36,15 @@
 </template>
 
 <script lang="ts" setup>
-import LoginDialog from '../login'
-import AvatarPopover from '../avatar'
+import LoginDialog from '@/components/login/LoginDialog.vue'
+import AvatarPopover from '@/components/avatar/AvatarPopover.vue'
 
 import {ref, onMounted, getCurrentInstance} from 'vue'
 import useUserStore from "@/stores/user";
 const userStore = useUserStore()
 
 // 调用函数，获取当前组件的实例proxy，这里的proxy类似于vue2中的this
-const {proxy} = getCurrentInstance()
+const {proxy}: any = getCurrentInstance()
 
 const activeIndex = ref()
 const handleSelect = (key: String, keyPath: String[]) => {

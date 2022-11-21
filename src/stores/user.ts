@@ -9,12 +9,12 @@ const useUserStore = defineStore(
             token: getToken(),
             name: '',
             avatar: '',
-            roles: [],
+            roles: new Array(),
             permissions: []
         }),
         actions: {
             // 登录
-            login(userInfo) {
+            login(userInfo: any) {
                 const username = userInfo.username.trim()
                 const password = userInfo.password
                 return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ const useUserStore = defineStore(
                         let data = res.data
                         setToken(data.access_token)
                         this.token = data.access_token
-                        resolve()
+                        resolve("登陆成功");
                     }).catch(error => {
                         reject(error)
                     })
@@ -52,12 +52,12 @@ const useUserStore = defineStore(
             // 退出系统
             logOut() {
                 return new Promise((resolve, reject) => {
-                    logout(this.token).then(() => {
+                    logout().then(() => {
                         this.token = ''
                         this.roles = []
                         this.permissions = []
                         removeToken()
-                        resolve()
+                        resolve("已登出")
                     }).catch(error => {
                         reject(error)
                     })

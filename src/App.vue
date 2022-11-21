@@ -27,8 +27,8 @@
 
 
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TopBar from './components/topbar/TopBar.vue'
+import HelloWorld from '@/components/HelloWorld.vue'
+import TopBar from '@/components/topbar/TopBar.vue'
 
 const carouselArry = ["https://hjxsuper.top/img/1.png", "https://hjxsuper.top/img/2.png"];
 
