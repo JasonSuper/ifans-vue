@@ -2,7 +2,12 @@
   <TopBar></TopBar>
   <div id="all">
     <div class="topbox">
-      <img alt="ifans logo" class="logo" src="https://www.hjxsuper.top/img/ifans.png"/>
+<!--      <img alt="ifans logo" class="logo" src="https://www.hjxsuper.top/img/ifans.png"/>-->
+      <el-carousel>
+        <el-carousel-item v-for="item in carouselArry" :key="item">
+          <img :src="item" />
+        </el-carousel-item>
+      </el-carousel>
     </div>
 
     <header>
@@ -24,16 +29,20 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import TopBar from './components/topbar/TopBar.vue'
+
+const carouselArry = ["https://hjxsuper.top/img/1.png", "https://hjxsuper.top/img/2.png"];
+
 </script>
 
 
 <style scoped>
 .topbox {
-  display: flex;
+  /*display: flex;*/
   place-items: center;
   width: 100%;
   grid-area: topbox;
-  height: 15rem;
+  height: 100%;
+  margin: 3rem 0 3rem 0;
 }
 
 header {
@@ -95,5 +104,20 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+.el-carousel__item img {
+  display: flex;
+  line-height: 300px;
+  margin: 0;
+  width: 100%;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>
