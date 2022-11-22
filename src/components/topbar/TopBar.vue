@@ -54,7 +54,7 @@ const handleSelect = (key: String, keyPath: String[]) => {
 const openDialog = () => proxy.$refs['sonLoginDialog'].open()
 </script>
 
-<style>
+<style scoped>
 .flex-grow {
   flex-grow: 1;
 }

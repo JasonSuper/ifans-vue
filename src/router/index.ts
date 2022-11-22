@@ -3,24 +3,29 @@ import HomeView from '../views/HomeView.vue'
 
 const constantRoutes = [
     {
-        path: '/',
+        path: '',
         name: 'home',
-        component: HomeView
+        redirect: '/yingyuan',
+        component: () => import('@/views'),
+        children: [
+            {
+                path: 'yingyuan',
+                name: 'yingyuan',
+                component: HomeView
+            },
+            {
+                path: 'about',
+                name: 'about',
+                component: () => import('@/views/AboutView.vue')
+            },
+        ]
     },
     {
-        path: '/about',
-        name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (About.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('../views/AboutView.vue')
-    },
-    /*{
         path: '/register',
         name: 'register',
-        component: () => import('@/views/register.vue'),
+        component: () => import('@/views/register'),
         hidden: true
-    }*/
+    }
 ]
 
 const router = createRouter({

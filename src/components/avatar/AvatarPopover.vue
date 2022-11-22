@@ -19,12 +19,17 @@
 <script lang="ts" setup>
 import {ElMessage} from 'element-plus'
 import useUserStore from "@/stores/user";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const userStore = useUserStore()
 
 function logout() {
+  console.log(userStore.avatar)
   userStore.logOut().then(() => {
-    ElMessage.success("已登出")
+    ElMessage.success("已登出");
+    router.push({path: "/yingyuan"});
   });
 }
 </script>

@@ -12,13 +12,13 @@
       <div class="login">
         <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
           <!--        <h3 class="title">哥哥，这世上一切美好的事情，你的脸就占90%</h3>-->
-          <el-form-item prop="username">
+          <el-form-item prop="email">
             <el-input
-                v-model="loginForm.username"
+                v-model="loginForm.email"
                 type="text"
                 size="large"
                 auto-complete="off"
-                placeholder="账号"
+                placeholder="邮箱"
             >
               <template #prefix>
                 <svg-icon icon-class="user" class="el-input__icon input-icon"/>
@@ -47,7 +47,7 @@
               <span v-else>注 册 中...</span>
             </el-button>-->
 
-            <el-button size="large" style="width:48%; margin-right: 1%"><span>注 册</span></el-button>
+            <el-button @click="handleRegister" size="large" style="width:48%; margin-right: 1%"><span>注 册</span></el-button>
             <el-button @click="handleLogin" size="large" color="#fb7299" style="width: 48%"><span style="color: #fff;">登录</span></el-button>
           </el-form-item>
         </el-form>
@@ -80,12 +80,12 @@ const { proxy }: any = getCurrentInstance();
 const redirect = ref(undefined);
 
 const loginForm = ref({
-  username: "",
+  email: "",
   password: ""
 });
 
 const loginRules = {
-  username: [{required: true, trigger: "blur", message: "请输入您的账号"}],
+  email: [{required: true, trigger: "blur", message: "请输入您的邮箱"}],
   password: [{required: true, trigger: "blur", message: "请输入您的密码"}]
 };
 
@@ -94,6 +94,11 @@ const open = () => {
 }
 
 defineExpose({ open });
+
+function handleRegister() {
+  router.replace('/register');
+  dialogVisible.value = false;
+}
 
 function handleLogin() {
   proxy.$refs["loginRef"].validate((valid: boolean) => {
@@ -112,7 +117,7 @@ function handleLogin() {
       }*/
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
-        router.push({path: redirect.value || "/"});
+        router.push({path: redirect.value || "/yingyuan"});
         dialogVisible.value = false;
       })
     }
@@ -253,7 +258,9 @@ function handleLogin() {
   height: 40px;
   padding-left: 12px;
 }
+</style>
 
+<style>
 .el-dialog__body {
   padding: 0 0 25px 0 !important;
 }
