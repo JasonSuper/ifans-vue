@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 
 // 登录方法
-export function login(username: string, password: string) {
+export function login(email: string, password: string) {
   return request({
     url: '/auth/login',
     headers: {
       isToken: false
     },
     method: 'post',
-    data: { username, password }
+    data: { email, password }
   })
 }
 

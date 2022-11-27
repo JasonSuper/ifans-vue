@@ -9,6 +9,9 @@
 
     <template #default>
       <div class="popover-box">
+        <el-button @click="toUserEdit" type="" text="plain">账号设置</el-button>
+
+        <div class="woo-divider-main woo-divider-x"><!----></div>
         <el-button @click="logout" type="" text="plain">退出登录</el-button>
       </div>
     </template>
@@ -23,7 +26,11 @@ import {useRouter} from "vue-router";
 
 const router = useRouter();
 
-const userStore = useUserStore()
+const userStore = useUserStore();
+
+function toUserEdit() {
+  router.push({path: "/user/edit"});
+}
 
 function logout() {
   console.log(userStore.avatar)
@@ -42,5 +49,17 @@ function logout() {
 
 .popover-box button {
   width: 100%;
+}
+
+.el-button + .el-button{
+  margin-left: 0px !important;
+}
+
+.woo-divider-x {
+  border-bottom: 1px solid;
+}
+
+.woo-divider-main {
+  color: #ececec;
 }
 </style>

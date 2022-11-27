@@ -1,5 +1,4 @@
 <template>
-  <TopBar></TopBar>
   <div id="all">
     <div class="topbox">
       <!--      <img alt="ifans logo" class="logo" src="https://www.hjxsuper.top/img/ifans.png"/>-->
@@ -26,9 +25,8 @@
 </template>
 
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import HelloWorld from '@/components/HelloWorld.vue'
-import TopBar from '@/components/topbar/TopBar.vue'
 
 const carouselArry = ["https://hjxsuper.top/img/1.png", "https://hjxsuper.top/img/2.png"];
 
@@ -42,7 +40,7 @@ const carouselArry = ["https://hjxsuper.top/img/1.png", "https://hjxsuper.top/im
   width: 100%;
   grid-area: topbox;
   height: 300px;
-  margin: 3rem 0 3rem 0;
+  margin: 0 0 3rem 0;
 }
 
 header {

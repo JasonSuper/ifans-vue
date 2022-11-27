@@ -11,13 +11,16 @@ let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = {show: false};
 
+// 是否显示登录框
+export let islogin = {show: false};
+
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
     baseURL: import.meta.env.VITE_APP_BASE_API,
     // 超时
-    timeout: 10000
+    timeout: 30000
 })
 
 // request拦截器

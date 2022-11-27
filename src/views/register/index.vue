@@ -13,10 +13,9 @@
 
       <el-form
           ref="registerRef"
-          :label-position="top"
+          label-position="top"
           label-width="100px"
           :model="registerForm"
-          :inline="true"
           :rules="registerRules"
       >
         <el-form-item prop="username" label="昵称">
@@ -71,7 +70,7 @@ const registerForm = ref({
   confirmPassword: "",
 });
 
-const equalToPassword = (rule, value, callback) => {
+const equalToPassword = (rule: any, value: any, callback: any) => {
   if (registerForm.value.password !== value) {
     callback(new Error("两次输入的密码不一致"));
   } else {
@@ -79,7 +78,7 @@ const equalToPassword = (rule, value, callback) => {
   }
 };
 
-const validateEmail = (rule, value, callback) => {
+const validateEmail = (rule: any, value: any, callback: any) => {
   if (!value) {
     return callback(new Error("邮箱不能为空！"));
   } else {
@@ -145,7 +144,7 @@ span {
 }
 
 .box-card {
-  max-width: 45%;
+  min-width: 100%;
 }
 
 .register-box {

@@ -8,17 +8,18 @@ const useUserStore = defineStore(
         state: () => ({
             token: getToken(),
             name: '',
+            sex: '',
             avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-            roles: new Array(),
+            roles: [] as any[],
             permissions: []
         }),
         actions: {
             // 登录
             login(userInfo: any) {
-                const username = userInfo.email.trim()
+                const email = userInfo.email.trim()
                 const password = userInfo.password
                 return new Promise((resolve, reject) => {
-                    login(username, password).then(res => {
+                    login(email, password).then(res => {
                         let data = res.data
                         setToken(data.access_token)
                         this.token = data.access_token
@@ -33,7 +34,6 @@ const useUserStore = defineStore(
                 return new Promise((resolve, reject) => {
                     getInfo().then(res => {
                         const user = res.user
-                        alert(user.avatar)
                         const avatar = (user.avatar == "" || user.avatar == null) ? 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png' : user.avatar;
 
                         if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
@@ -43,6 +43,7 @@ const useUserStore = defineStore(
                             this.roles = ['ROLE_DEFAULT']
                         }
                         this.name = user.userName
+                        this.sex = user.sex
                         this.avatar = avatar;
                         resolve(res)
                     }).catch(error => {

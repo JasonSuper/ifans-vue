@@ -42,13 +42,15 @@
           </el-form-item>
 
           <el-form-item style="width:100%;">
-<!--            <el-button :loading="loading" size="large" style="width:48%; margin-right: 1%" @click.prevent="handleregister">
-              <span v-if="!loading">注 册</span>
-              <span v-else>注 册 中...</span>
-            </el-button>-->
+            <!--            <el-button :loading="loading" size="large" style="width:48%; margin-right: 1%" @click.prevent="handleregister">
+                          <span v-if="!loading">注 册</span>
+                          <span v-else>注 册 中...</span>
+                        </el-button>-->
 
-            <el-button @click="handleRegister" size="large" style="width:48%; margin-right: 1%"><span>注 册</span></el-button>
-            <el-button @click="handleLogin" size="large" color="#fb7299" style="width: 48%"><span style="color: #fff;">登录</span></el-button>
+            <el-button @click="handleRegister" size="large" style="width:48%; margin-right: 1%"><span>注 册</span>
+            </el-button>
+            <el-button @click="handleLogin" size="large" color="#fb7299" style="width: 48%"><span style="color: #fff;">登录</span>
+            </el-button>
           </el-form-item>
         </el-form>
 
@@ -69,19 +71,21 @@
 <script lang="ts" setup>
 import {getCurrentInstance, ref, watch} from 'vue';
 import useUserStore from '@/stores/user'
-import {useRouter} from "vue-router";
+import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
+import {islogin} from "@/utils/request";
 
 let dialogVisible = ref(false);
 
 const userStore = useUserStore()
 const router = useRouter();
-const { proxy }: any = getCurrentInstance();
+const route = useRoute()
+const {proxy}: any = getCurrentInstance();
 
 const redirect = ref(undefined);
 
 const loginForm = ref({
-  email: "",
-  password: ""
+  email: "zz5533114@qq.com",
+  password: "zz5533114"
 });
 
 const loginRules = {
@@ -93,7 +97,21 @@ const open = () => {
   dialogVisible.value = true
 }
 
-defineExpose({ open });
+defineExpose({open});
+
+/*watch(() => route.query.showLoginDialog, (nv, ov) => {
+      if (nv === '1') {
+        open()
+      }
+    },
+    {immediate: true, deep: true})*/ //options放这
+
+watch(() => islogin.show, (nv) => {
+  console.log(nv)
+  if (nv) {
+    open()
+  }
+},{immediate: true, deep: true})
 
 function handleRegister() {
   router.replace('/register');
@@ -117,7 +135,7 @@ function handleLogin() {
       }*/
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
-        router.push({path: redirect.value || "/yingyuan"});
+        router.push({path: redirect.value || "/"});
         dialogVisible.value = false;
       })
     }
