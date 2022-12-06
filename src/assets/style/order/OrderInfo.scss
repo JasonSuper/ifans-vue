@@ -1,0 +1,90 @@
+.detail-content-wrapper {
+  display: flex;
+  width: 1160px;
+  margin: 0 auto;
+}
+
+.confirmorder-container {
+  width: 100%;
+  padding: 15px 40px 40px;
+  margin: 40px 0;
+  box-sizing: border-box;
+  box-shadow: 0 0 2px 0 #cbd0d8;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.project-info {
+  margin-bottom: 20px;
+  border-bottom: 1px dashed #e7e7e7;
+}
+
+.confirmorder-container .loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background: rgba(0,0,0,.4);
+  z-index: 1010;
+}
+
+.confirmorder-container .discounts {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e7e7e7;
+  margin-bottom: 15px;
+}
+
+.total-container {
+  margin-top: 30px;
+  background: #f4f5f7;
+  padding: 20px 15px 5px;
+}
+
+.confirmorder-container .confirm-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.total-container div {
+  text-align: right;
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #6d757a;
+}
+
+.detail-content-wrapper span {
+  float: right;
+  min-width: 130px;
+  color: #222;
+}
+
+.detail-content-wrapper span.total {
+  line-height: 22px;
+  font-size: 22px;
+  color: #ff66a2;
+}
+
+.confirmorder-container .confirm-bottom .confirm-paybtn.active {
+  color: #fff;
+  background-image: linear-gradient(-48deg,#fe8574,#ff6a9c);
+  box-shadow: 0 3px 4px 0 #fdb8cc;
+  border-radius: 4px;
+}
+
+.confirmorder-container .confirm-bottom .confirm-paybtn {
+  width: 240px;
+  height: 50px;
+  font-size: 18px;
+  color: #99a2aa;
+  cursor: default;
+  line-height: 50px;
+  text-align: center;
+  background: #e4eaef;
+  border-radius: 4px;
+}

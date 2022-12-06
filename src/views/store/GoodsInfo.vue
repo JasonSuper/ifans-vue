@@ -1,5 +1,5 @@
 <template>
-  <div class="buyticket">
+  <div v-if="info" class="buyticket">
     <el-breadcrumb class="bread-wrapper" :separator-icon="ArrowRight">
       <el-breadcrumb-item :to="{ path: '/' }">ifans</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/store/list' }">商城</el-breadcrumb-item>
@@ -55,7 +55,7 @@
                     </div>-->
           <div class="product-buy-wrapper">
             <div class="product-buy enable">
-              <div>立即购买</div>
+              <div @click="handleBuy">立即购买</div>
             </div>
             <!--            <div class="promo-btn" style="">
                           <div class="sub-text">参与限时优惠</div>
@@ -98,17 +98,22 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {getCurrentInstance, inject, ref} from 'vue'
 import {ArrowRight} from '@element-plus/icons-vue'
 import {infoById} from '@/api/store'
 import {useRoute} from "vue-router";
-import type {Store} from '@/interface/Store'
+import {getToken} from "@/utils/auth";
 
 import '@/assets/style/stores/GoodsInfo.scss'
-
+import {ElMessage} from "element-plus";
+import router from "@/router";
+import {prepare} from "@/api/order";
 
 const route = useRoute();
 const num = ref(1)
+
+const {proxy}: any = getCurrentInstance()
+
 const handleChange = (value: number) => {
   console.log(value)
 }
@@ -117,9 +122,18 @@ let info = ref();
 
 function loadinfo() {
   infoById(route.params.id).then((res) => {
-    info.value = res.data;
+    info.value = JSON.parse(res.data);
   })
 }
 
+function handleBuy() {
+  if(getToken()) {
+    prepare({goodsId: route.params.id, count: num.value}).then((res) => {
+      router.push({path: '/store/confirmOrder/' + res.data});
+    });
+  } else {
+    ElMessage.error("请先登录");
+  }
+}
 loadinfo();
 </script>

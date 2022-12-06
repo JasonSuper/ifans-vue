@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" width="820" style="border-radius: 8px">
+  <div class="logincard-box">
     <div class="flagbox">
       <div style="margin-left: 1rem">喜欢，唱，跳rap！</div>
       <div>加入ifans</div>
@@ -64,24 +64,20 @@
         </div>
       </div>
     </div>
-  </el-dialog>
+  </div>
 </template>
-
 
 <script lang="ts" setup>
 import {getCurrentInstance, ref, watch} from 'vue';
 import useUserStore from '@/stores/user'
 import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
-import {islogin} from "@/utils/request";
-
-let dialogVisible = ref(false);
 
 const userStore = useUserStore()
 const router = useRouter();
 const route = useRoute()
 const {proxy}: any = getCurrentInstance();
 
-const redirect = ref(undefined);
+const redirect = route.query.redirect as string;
 
 const loginForm = ref({
   email: "zz5533114@qq.com",
@@ -93,29 +89,17 @@ const loginRules = {
   password: [{required: true, trigger: "blur", message: "请输入您的密码"}]
 };
 
-const open = () => {
-  dialogVisible.value = true
-}
-
 defineExpose({open});
 
-/*watch(() => route.query.showLoginDialog, (nv, ov) => {
-      if (nv === '1') {
-        open()
-      }
-    },
-    {immediate: true, deep: true})*/ //options放这
-
-watch(() => islogin.show, (nv) => {
+/*watch(() => islogin.show, (nv) => {
   console.log(nv)
   if (nv) {
     open()
   }
-},{immediate: true, deep: true})
+},{immediate: true, deep: true})*/
 
 function handleRegister() {
   router.replace('/register');
-  dialogVisible.value = false;
 }
 
 function handleLogin() {
@@ -135,8 +119,7 @@ function handleLogin() {
       }*/
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
-        router.push({path: redirect.value || "/"});
-        dialogVisible.value = false;
+        router.push({path: decodeURIComponent(redirect) || "/"});
       })
     }
   });
@@ -144,6 +127,13 @@ function handleLogin() {
 </script>
 
 <style lang='scss' scoped>
+.logincard-box {
+  background: #fff;
+  border-radius: 8px;
+  width: 740px;
+  margin-top: 10rem;
+}
+
 .flagbox {
   display: flex;
   justify-content: center;
@@ -275,17 +265,5 @@ function handleLogin() {
 .login-code-img {
   height: 40px;
   padding-left: 12px;
-}
-</style>
-
-<style>
-.el-dialog__body {
-  padding: 0 0 25px 0 !important;
-}
-
-.el-dialog__headerbtn {
-  top: 15px !important;
-  width: 20px !important;
-  height: 20px !important;
 }
 </style>

@@ -17,7 +17,7 @@
                 <span class="price-symbol">¥</span>
                 <span class="price">{{ item.price }}</span>
                 <span class="start">元</span>
-                <span class="promo-item">独家</span>
+<!--                <span class="promo-item">独家</span>-->
               </div>
             </div>
           </div>
@@ -112,8 +112,9 @@ function load() {
 }
 
 function goinfo(id: string) {
-  const { href } = router.resolve({ path: '/store/info/' + id })
-  window.open(href, '_blank')
+  /*const { href } = router.resolve({ path: '/store/info/' + id })
+  window.open(href, '_blank')*/
+  router.push({ path: '/store/info/' + id });
 }
 
 load();

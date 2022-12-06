@@ -29,20 +29,17 @@
 
       <li class="li-wapper" index="7">
         <AvatarPopover v-if="userStore.token != null && userStore.token != ''"></AvatarPopover>
-        <el-button v-else @click="openDialog" color="#ffe250" style="color: #fb7299"><span style="font-weight: bold">注册登录</span>
+        <el-button v-else @click="handleLogin" color="#ffe250" style="color: #fb7299"><span style="font-weight: bold">注册登录</span>
         </el-button>
       </li>
     </el-menu>
   </el-affix>
-
-  <LoginDialog ref="sonLoginDialog"></LoginDialog>
 </template>
 
 <script lang="ts" setup>
-import LoginDialog from '@/components/login/LoginDialog.vue'
-import AvatarPopover from '@/components/avatar/AvatarPopover.vue'
+import AvatarPopover from '@/components/Avatar/AvatarPopover.vue'
 
-import {getCurrentInstance, ref, watch} from 'vue'
+import {getCurrentInstance, inject, ref, watch} from 'vue'
 import useUserStore from "@/stores/user";
 import {useRoute, useRouter} from "vue-router";
 
@@ -67,7 +64,14 @@ const handleSelect = (key: String, keyPath: String[]) => {
   }
 }
 
-const openDialog = () => proxy.$refs['sonLoginDialog'].open()
+function handleLogin() {
+  router.replace({
+    name: "login",
+    query: {
+      redirect: router.currentRoute.value.fullPath // router对象自带的属性
+    }
+  })
+}
 </script>
 
 <style>

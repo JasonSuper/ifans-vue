@@ -31,7 +31,8 @@ export default defineConfig(({ mode, command }) => {
       proxy: {
         // https://cn.vitejs.dev/config/#server-proxy
         '/dev-api': {
-          target: 'https://v1p5426743.yicp.fun',
+          //target: 'https://v1p5426743.yicp.fun',
+          target: 'http://localhost:9200',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/dev-api/, '')
         }

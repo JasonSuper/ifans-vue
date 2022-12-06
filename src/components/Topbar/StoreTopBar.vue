@@ -22,22 +22,19 @@
       <div class="ifans-store-header-item">
         <AvatarPopover v-if="userStore.token != null && userStore.token != ''"></AvatarPopover>
         <div v-else class="ifans-store-header-item">
-          <el-link @click="openDialog" :underline="false">注册|登录</el-link>
+          <el-link @click="handleLogin" :underline="false">注册|登录</el-link>
         </div>
       </div>
 
       <div class="ifans-store-header-item">
-        <el-link :underline="false">订单中心</el-link>
+        <el-link href="/store/order" :underline="false">订单中心</el-link>
       </div>
     </div>
   </el-affix>
-
-  <LoginDialog ref="sonLoginDialog"></LoginDialog>
 </template>
 
 <script lang="ts" setup>
-import LoginDialog from '@/components/login/LoginDialog.vue'
-import AvatarPopover from '@/components/avatar/AvatarPopover.vue'
+import AvatarPopover from '@/components/Avatar/AvatarPopover.vue'
 import { Search } from '@element-plus/icons-vue'
 import {getCurrentInstance, ref} from 'vue'
 import useUserStore from "@/stores/user";
@@ -49,9 +46,16 @@ const router = useRouter()
 // 调用函数，获取当前组件的实例proxy，这里的proxy类似于vue2中的this
 const {proxy}: any = getCurrentInstance()
 
-const openDialog = () => proxy.$refs['sonLoginDialog'].open()
-
 const searchtext = ref("")
+
+function handleLogin() {
+  router.replace({
+    name: "login",
+    query: {
+      redirect: router.currentRoute.value.fullPath // router对象自带的属性
+    }
+  })
+}
 </script>
 
 <style>

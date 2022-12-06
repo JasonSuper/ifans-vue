@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import TopBar from '@/components/topbar/TopBar.vue'
+import TopBar from '@/components/Topbar/TopBar.vue'
 </script>
 
 <style>

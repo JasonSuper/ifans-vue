@@ -59,10 +59,8 @@ import {ElMessageBox, ElMessage} from "element-plus";
 import {register} from "@/api/login";
 
 const {proxy}: any = getCurrentInstance();
-
 const isShow = ref(true);
 const labelPosition = ref('right')
-
 const registerForm = ref({
   username: "",
   email: "",

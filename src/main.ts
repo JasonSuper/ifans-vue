@@ -10,16 +10,20 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import store from './stores'
 import router from './router'
+import directive from './directive'
 import './assets/main.css'
 
 import './permission'
+
 
 const app = createApp(App)
 
 app.use(router)
 app.use(store)
-app.use(ElementPlus);
+app.use(ElementPlus)
 app.use(createPinia())
+
+directive(app)
 
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {

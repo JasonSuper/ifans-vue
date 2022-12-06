@@ -1,0 +1,159 @@
+.order-list-wrapper {
+  min-height: 500px;
+  width: 980px;
+  height: 100%;
+  margin: 30px auto 0;
+}
+
+.order-list-wrapper .order-list {
+  margin-bottom: 30px;
+}
+
+.order-list-wrapper .order-list .order-item {
+  border-radius: 5px;
+  margin-top: 20px;
+  border: 1px solid #e5e9ef;
+  background: #fff;
+}
+
+.order-header-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  height: 42px;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #f4f5f7;
+  color: #99a2aa;
+}
+
+.order-header-wrapper .order-header-time {
+  margin-left: 20px;
+}
+
+.order-header-wrapper .order-header-id {
+  margin-left: 30px;
+}
+
+.order-header-wrapper .order-header-status {
+  -ms-flex: 1;
+  flex: 1;
+  text-align: right;
+  margin-right: 20px;
+  color: #333;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper {
+  padding: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-img {
+  border-radius: 5px;
+  width: 74px;
+  height: 74px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body {
+  margin-left: 10px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1;
+  flex: 1;
+  height: 74px;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-name-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 200px;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-name-wrapper .name {
+  line-height: 20px;
+  font-size: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-name-wrapper .time {
+  color: #99a2aa;
+  line-height: 12px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-count {
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  line-height: 18px;
+  width: 45px;
+  margin-left: 30px;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-total {
+  -ms-flex-item-align: center;
+  align-self: center;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 90px;
+  margin-left: 30px;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-ticket-type {
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  width: 75px;
+  margin-left: 30px;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-body .order-item-deliver {
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  width: 90px;
+  margin-left: 30px;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-btn-group {
+  height: 74px;
+  width: 100px;
+  text-align: center;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-btn-group .btn {
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 5px;
+}
+
+.order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-btn-group .btn.canceldetail, .order-list-wrapper .order-list .order-item .order-item-body-wrapper .order-item-btn-group .btn.checkdetail {
+  //color: #6c767a;
+  border: 1px solid #f89898;
+  margin-bottom: 5px;
+}

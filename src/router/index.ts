@@ -5,7 +5,7 @@ const constantRoutes = [
     {
         path: '',
         name: 'home',
-        component: () => import('@/components/layout/Layout.vue'),
+        component: () => import('@/components/Layout/Layout.vue'),
         children: [
             {
                 path: '',
@@ -34,6 +34,12 @@ const constantRoutes = [
         ]
     },
     {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/login.vue'),
+        hidden: true
+    },
+    {
         path: '/register',
         name: 'register',
         component: () => import('@/views/register/index.vue'),
@@ -53,10 +59,32 @@ const constantRoutes = [
             {
                 path: 'info/:id',
                 name: 'info',
+                meta: {
+                    auth: false
+                },
                 component: () => import('@/views/store/GoodsInfo.vue'),
             },
+            {
+                path: 'confirmOrder/:ticket',
+                name: 'confirmOrder',
+                component: () => import('@/views/order/ConfirmOrder.vue'),
+                hidden: true,
+            },
+            {
+                path: 'order',
+                name: 'order',
+                component: () => import('@/views/order/index.vue'),
+                hidden: true,
+            },
+            {
+                path: 'order/payCallBack/alipay',
+                name: 'payCallBack_alipay',
+                component: () => import('@/views/order/payCallBack/alipay.vue'),
+                hidden: true,
+            },
         ]
-    },
+    }
+
     /*{
         path: '/user/edit',
         name: 'edit',

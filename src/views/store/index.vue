@@ -1,9 +1,9 @@
 <template>
-  <StoreTopBar></StoreTopBar>
+  <StoreTopBar ref="stb"></StoreTopBar>
 
   <router-view></router-view>
 </template>
 
 <script lang="ts" setup>
-import StoreTopBar from '@/components/topbar/StoreTopBar.vue';
+import StoreTopBar from '@/components/Topbar/StoreTopBar.vue';
 </script>
