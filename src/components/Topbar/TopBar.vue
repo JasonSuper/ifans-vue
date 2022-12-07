@@ -19,7 +19,7 @@
         <el-menu-item index="2-3">素人区</el-menu-item>
       </el-sub-menu>
 
-      <el-menu-item index="3">体育区</el-menu-item>
+      <el-menu-item index="3">排行榜</el-menu-item>
 
       <div class="flex-grow"/>
 
@@ -55,6 +55,9 @@ const handleSelect = (key: String, keyPath: String[]) => {
   switch (key) {
     case '1':
       router.push({path: '/'})
+      break;
+    case '3':
+      router.push({path: '/rank'})
       break;
     case '4':
       router.push({path: '/store/list'})

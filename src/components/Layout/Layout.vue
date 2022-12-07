@@ -12,6 +12,6 @@ import TopBar from '@/components/Topbar/TopBar.vue'
 
 <style>
 .content {
-  margin-top: 1.5rem;
+  width: 100%;
 }
 </style>

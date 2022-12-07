@@ -30,6 +30,12 @@ const constantRoutes = [
                 name: 'edit',
                 component: () => import('@/views/user/Edit.vue'),
                 hidden: true
+            },
+            {
+                path: 'rank',
+                name: 'rank',
+                component: () => import('@/views/rank/index.vue'),
+                hidden: true
             }
         ]
     },
