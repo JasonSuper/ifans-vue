@@ -83,9 +83,9 @@ const constantRoutes = [
                 hidden: true,
             },
             {
-                path: 'order/payCallBack/alipay',
-                name: 'payCallBack_alipay',
-                component: () => import('@/views/order/payCallBack/alipay.vue'),
+                path: 'order/payCallBack',
+                name: 'payCallBack',
+                component: () => import('@/views/order/payCallBack/index.vue'),
                 hidden: true,
             },
         ]

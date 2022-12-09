@@ -152,7 +152,9 @@ span {
 }
 
 .box-card {
-  min-width: 600px;
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 1.5rem;
 }
 
 .edit-box {

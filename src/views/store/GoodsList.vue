@@ -104,7 +104,7 @@ const page = ref({
 function load() {
   page.value.current++;
 
-  list(page.value).then((res) => {
+  list(page.value).then((res: any) => {
     if(res?.data != null) {
       storelist.value = storelist.value.concat(res.data.records);
     }

@@ -4,7 +4,7 @@
       <div class="order-list">
         <div class="order-item" v-for="order in orderlist" :key="order.id">
           <div class="order-header-wrapper" now="1669861852464">
-            <div class="order-header-time">创建时间：{{ parseTime(order.orderTime) }}</div>
+            <div class="order-header-time">创建时间：{{ parseTime(order.orderTime, "") }}</div>
             <div class="order-header-id">订单号：{{ order.orderNo }}</div>
             <!--          <div class="order-header-status">已取消</div>-->
             <div class="order-header-status">{{ payTypeFormater(order.payStatus) }}</div>
@@ -28,8 +28,9 @@
               </div>
             </div>
             <div class="order-item-btn-group">
-              <el-button class="btn checkdetail" type="danger" v-if="order.payStatus == 0" @click="doPay(order.id)">支付</el-button>
-              <el-button class="btn checkdetail" v-if="order.payStatus == 0" @click="doClosepay(order.orderNo)">取消订单</el-button>
+              <el-button class="btn checkdetail" type="danger" v-if="order.payStatus == '0'" @click="doPay(order.id)">支付</el-button>
+              <el-button class="btn checkdetail" v-if="order.payStatus == '0'" @click="doClosepay(order.orderNo)">取消订单
+              </el-button>
             </div>
           </div>
         </div>
@@ -43,7 +44,7 @@
             </div>
           </div>-->
     </div>
-    <el-empty v-else description="目前没有订单" />
+    <el-empty v-else description="目前没有订单"/>
   </ul>
 </template>
 
@@ -52,8 +53,9 @@ import '@/assets/style/order/Order.scss'
 import {ref} from "vue";
 import {closepay, list, pay} from "@/api/order";
 import type {Order} from '@/interface/Order'
-import { parseTime } from '@/utils/common'
+import {parseTime} from '@/utils/common'
 import {useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
 
 const router = useRouter();
 const page = ref({
@@ -66,45 +68,52 @@ let orderlist = ref([] as Order[]);
 function load() {
   page.value.current++;
 
-  list(page.value).then((res) => {
+  list(page.value).then((res: any) => {
     if (res?.data != null) {
       orderlist.value = orderlist.value.concat(res.data.records);
     }
   })
 }
 
-function payTypeFormater(paystatus) {
+function payTypeFormater(paystatus: string) {
   switch (paystatus) {
-    case 0:
+    case '0':
       return '未付款';
-    case 1:
+    case '1':
       return '已付款';
-    case 4:
+    case '4':
       return '已取消';
   }
 }
 
-function priceLogoFormater(price) {
+function priceLogoFormater(price: any) {
   if (price) {
     return '￥' + price;
   }
   return null;
 }
 
-function doClosepay(orderNo) {
+function doClosepay(orderNo: string) {
   closepay(orderNo).then((res) => {
     router.go(0)
     //this.$router.go(0);
   })
 }
 
-function doPay(orderId) {
+function doPay(orderId: string) {
   //打开支付页面
-  pay(orderId).then((payHtml) => {
-    const div = document.createElement('div')
+  pay(orderId).then((res) => {
+    if (res.data.code == 200) {
+      let payHtml = res.data.payPage;
+      /*const div = document.createElement('div')
     div.innerHTML = payHtml
     document.body.appendChild(div)
-    document.forms[0].submit()
+    document.forms[0].submit()*/
+
+      window.location.href = payHtml
+    } else {
+      ElMessage.error(res.data.msg);
+    }
   });
 }
 
@@ -113,7 +122,7 @@ load();
 
 <style scoped>
 .infinite-list {
-  max-height: 1200px;
+  height: 1200px;
   padding: 0;
   margin: 0;
   list-style: none;

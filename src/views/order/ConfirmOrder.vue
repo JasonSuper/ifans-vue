@@ -72,13 +72,13 @@
 </template>
 
 <script lang="ts" setup>
-import Table from '@/components/Table'
+import Table from '@/components/Table/index.vue'
 import {useRoute, useRouter} from "vue-router";
 import {confrimInfo, createOrder, pay} from '@/api/order'
 import {reactive, ref} from "vue";
 
 import '@/assets/style/order/OrderInfo.scss'
-import {Action, ElMessage, ElMessageBox} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 
 const router = useRouter();
@@ -107,7 +107,7 @@ function buttonFun(i: any, r: any) {
 
 const data = ref([])
 
-const column = reactive({
+const column: any = reactive({
   content: {
     prop: 'content',
     label: '商品',
@@ -182,17 +182,24 @@ function doCreateOrder() {
       ElMessageBox.alert("<font color='red'>" + res.data.msg + "</font>", '提示', {
         dangerouslyUseHTMLString: true,
         confirmButtonText: '确认',
-        callback: (action: Action) => {
+        callback: (action: any) => {
           //router.push('/store/info/' + goodsId.value)
         }
       })
     } else {
       //打开支付页面
-      pay(res.data.orderId).then((payHtml) => {
-        const div = document.createElement('div')
+      pay(res.data.orderId).then((res) => {
+        if (res.data.code == 200) {
+          let payHtml = res.data.payPage;
+          /*const div = document.createElement('div')
         div.innerHTML = payHtml
         document.body.appendChild(div)
-        document.forms[0].submit()
+        document.forms[0].submit()*/
+
+          window.location.href = payHtml
+        } else {
+          ElMessage.error(res.data.msg);
+        }
       });
     }
   })

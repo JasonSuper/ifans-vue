@@ -82,6 +82,8 @@ const redirect = route.query.redirect as string;
 const loginForm = ref({
   email: "zz5533114@qq.com",
   password: "zz5533114"
+  /*email: "",
+  password: ""*/
 });
 
 const loginRules = {

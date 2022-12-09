@@ -1,54 +1,144 @@
 <template>
-  <div class="rank-all">
-    <div class="rank-box">
-      <div class="rank-topthird">
-        <div class="rank-wapper">
-          <div class="rank-notfirst" style="background-image: url(https://hjxsuper.top/img/rank/2.png);">
-            <img src="https://www.hjxsuper.top/img/wje.png">
-          </div>
-          <div class="index-userNameBox-CoqLt-second"><div class="index-limitLength-aQns6-second">王嘉尔</div></div>
-        </div>
+  <ul v-infinite-scroll="load" :infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto">
 
-        <div class="rank-wapper">
-          <div class="rank-first" style="background-image: url(https://hjxsuper.top/img/rank/1.png);">
-            <img src="https://www.hjxsuper.top/img/cxk.webp">
-          </div>
-          <div class="index-userNameBox-CoqLt-first"><div class="index-limitLength-aQns6-first">iKun</div></div>
-        </div>
+    <div class="rank-all">
+      <div class="rank-box">
+        <div v-if="topthird.length > 0" class="rank-topthird">
 
-        <div class="rank-wapper">
-          <div class="rank-notfirst" style="background-image: url(https://hjxsuper.top/img/rank/3.png);">
-            <img src="https://www.hjxsuper.top/img/xiaozhan.png">
-          </div>
-          <div class="index-userNameBox-CoqLt-third"><div class="index-limitLength-aQns6-third">肖战</div></div>
-        </div>
-      </div>
-
-      <div class="rank-list">
-        <a v-for="i in 100">
-          <div class="rank-num">{{ i }}</div>
-          <div class="rank-avatar"><img src="https://hjxsuper-ifans.oss-cn-hangzhou.aliyuncs.com/avatar/2022-11-27/daa38d19fa88426da8da576f43516302微信图片_20221126223726.png"/></div>
-          <div class="rank-content">
-            <div>蔡徐坤</div>
-            <div>
-              <span style="color: rgb(255, 119, 0); margin-right: 5px;">12312</span>
-              <span style="color: rgb(160, 160, 160); opacity: 0.6;">热度</span>
+          <div class="rank-wapper">
+            <div class="rank-notfirst" style="background-image: url(https://hjxsuper.top/img/rank/2.png);">
+              <img :src="topthird[1].avatar">
             </div>
+            <div class="index-userNameBox-CoqLt-second">
+              <div class="index-limitLength-aQns6-second">{{ topthird[1].idolName }}</div>
+            </div>
+            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{ topthird[1].rankHot }}</span><span style="color: #000;">热度值</span></div>
+            <el-button class="index-joinIn-vr5CQ" type="danger">打Call</el-button>
           </div>
-          <div class="rank-btn-join">
-            <el-button type="warning" plain>打Call</el-button>
+
+          <div class="rank-wapper">
+            <div class="rank-first" style="background-image: url(https://hjxsuper.top/img/rank/1.png);">
+              <img :src="topthird[0].avatar">
+            </div>
+            <div class="index-userNameBox-CoqLt-first">
+              <div class="index-limitLength-aQns6-first">{{ topthird[0].idolName }}</div>
+            </div>
+            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{ topthird[0].rankHot }}</span><span style="color: #000;">热度值</span></div>
+            <el-button class="index-joinIn-vr5CQ" type="danger">打Call</el-button>
           </div>
-        </a>
+
+          <div class="rank-wapper">
+            <div class="rank-notfirst" style="background-image: url(https://hjxsuper.top/img/rank/3.png);">
+              <img :src="topthird[2].avatar">
+            </div>
+            <div class="index-userNameBox-CoqLt-third">
+              <div class="index-limitLength-aQns6-third">{{ topthird[2].idolName }}</div>
+            </div>
+            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{ topthird[2].rankHot }}</span><span style="color: #000;">热度值</span></div>
+            <el-button class="index-joinIn-vr5CQ" type="danger">打Call</el-button>
+          </div>
+        </div>
+
+
+        <div class="rank-list">
+          <a v-for="(i, index) in other" :key="i.id">
+            <div class="rank-num">{{ index + 4 }}</div>
+            <div class="rank-avatar"><img
+                :src="i.avatar == null ? 'https://hjxsuper-ifans.oss-cn-hangzhou.aliyuncs.com/avatar/2022-11-27/daa38d19fa88426da8da576f43516302微信图片_20221126223726.png' : i.avatar"/>
+            </div>
+            <div class="rank-content">
+              <div>{{ i.idolName }}</div>
+              <div>
+                <span style="color: rgb(255, 119, 0); margin-right: 5px;">{{ i.rankHot }}</span>
+                <span style="color: rgb(160, 160, 160); opacity: 0.6;">热度</span>
+              </div>
+            </div>
+            <div class="rank-btn-join">
+
+              <el-popover placement="top-end" :width="465" :hide-after="0" trigger="click">
+                <template #reference>
+                  <el-button type="warning" size="small" round plain>打Call</el-button>
+                </template>
+
+                <el-tabs tab-position="left" style="height: 310px" class="hitcall-tabs">
+                  <el-tab-pane label="道具">
+
+                    <el-scrollbar max-height="275">
+                      <div style="width: 94%; height: 275px;">
+                        <el-row :gutter="20">
+                          <el-col v-if="goodsBag.length > 0" v-for="i in 1" :span="6">
+                            <el-badge :value="12" class="item">
+                              <el-card class="grid-content ep-bg-purple" shadow="hover"><img src="https://www.hjxsuper.top/img/rock.png"></el-card>
+                              大火箭
+                            </el-badge>
+                          </el-col>
+
+                          <el-empty v-if="goodsBag.length == 0" style="margin: 0 auto;" description="没有可用道具" />
+                        </el-row>
+                      </div>
+                    </el-scrollbar>
+
+                    <div style="margin-top: 8px;">
+                      <el-button type="danger" size="small" plain @click="goStore()">购买道具</el-button>
+                    </div>
+                  </el-tab-pane>
+<!--                  <el-tab-pane label="权益物品"><el-empty style="margin: 0 auto;" description="没有权益物品" /></el-tab-pane>-->
+                </el-tabs>
+              </el-popover>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
+  </ul>
 </template>
 
 <script lang="ts" setup>
+import {ref} from 'vue'
+import {list} from "@/api/rank";
+import type {Rank} from "@/interface/Rank";
+import router from "@/router";
 
+const topthird = ref([] as Rank[]);
+const other = ref([] as Rank[]);
+
+const goodsBag = ref([]);
+
+const page = ref({
+  size: 30,
+  current: 0
+})
+
+function load() {
+  page.value.current++;
+
+  list(page.value).then((res: any) => {
+    if (res?.data != null) {
+      if (page.value.current == 1) {
+        topthird.value = res.data.records.slice(0, 3);
+        other.value = other.value.concat(res.data.records.slice(3, res.data.records.length));
+      } else {
+        other.value = other.value.concat(res.data.records);
+      }
+    }
+  })
+}
+
+function goStore() {
+  router.push("/store/list")
+}
+
+load();
 </script>
 
 <style>
+.infinite-list {
+  height: 1200px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
 .rank-all {
   /*background-image: url(https://shark2.douyucdn.cn/front-publish/weibo-web-master/images/fa3e6afdb7a51192d2f0ac201319f7f7.png);
   z-index: 0;
@@ -67,7 +157,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 280px;
+  height: 340px;
 }
 
 .rank-first {
@@ -78,7 +168,7 @@
   height: 157px;
 }
 
-.rank-first img{
+.rank-first img {
   height: 109px;
   width: 110px;
   margin-top: 30px;
@@ -94,14 +184,14 @@
   margin-top: 39px;
 }
 
-.rank-notfirst img{
+.rank-notfirst img {
   height: 90px;
   width: 87px;
   margin-top: 23px;
   z-index: -1;
 }
 
-.rank-wapper{
+.rank-wapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +202,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   border-radius: 10px;
   background: #fff;
   padding: 20px;
@@ -124,6 +214,7 @@
   width: 50%;
   border-bottom: 1px solid #eeeeee;
   padding: 8px;
+  margin-right: auto;
 }
 
 .rank-num {
@@ -229,5 +320,94 @@ a:hover {
   color: #a3481e;
   font-size: 12px;
   font-weight: bold;
+}
+
+.index-hotNum-ONNEy {
+  position: absolute;
+  font-size: 14px;
+  bottom: -42px;
+  left: 115px;
+  width: 118px;
+  height: 14px;
+}
+
+.index-joinIn-vr5CQ {
+  position: absolute;
+  bottom: -76px;
+  left: 130px;
+  width: 60px;
+  height: 22px;
+  border-radius: 12px;
+  border: 1px solid #fff;
+  color: #fff;
+  line-height: 24px;
+}
+
+.hitcall-tabs > .el-tabs__content {
+  padding: 0px 16px 0 16px;
+  color: #6b778c;
+  /*font-size: 16px;
+  font-weight: 600;*/
+}
+
+.el-tabs--right .el-tabs__content,
+.el-tabs--left .el-tabs__content {
+  height: 100%;
+}
+
+.el-row:last-child {
+  margin-bottom: 0;
+}
+.el-col {
+  border-radius: 4px;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+  margin-bottom: 10px;
+}
+
+.grid-content img {
+  width: 50px;
+  height: 50px;
+  /*border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border: 2px #ccc solid;*/
+}
+
+.el-col-6 {
+  max-width: 25%;
+  flex: 0 0 25%;
+}
+
+.el-card__body {
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.el-badge__content.is-fixed {
+  position: absolute;
+  top: 51px;
+  right: 20px !important;
+  transform: translateY(-50%) translateX(100%);
+}
+
+.el-tabs__item.is-active {
+  color: #f89898;
+}
+
+.el-tabs__active-bar {
+  background-color: #f89898;
 }
 </style>

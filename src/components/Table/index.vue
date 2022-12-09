@@ -10,7 +10,7 @@
                      :sortable="col.sortable"
                      :header-align="col.header_align">
       <template #default="scope">
-        <div class="button-col" v-if="colField === 'button'">
+        <div class="button-col" v-if="typeof colField == 'string' && colField === 'button'">
           <div v-for="(btn, btnKey) in getButtonsArray(false)" :key="btnKey">
             <el-button
                 v-if="getShowButton(btn, scope.row)"
@@ -35,7 +35,7 @@
           </el-dropdown>
         </div>
 
-        <div class="project-content" v-else-if="colField === 'content'">
+        <div class="project-content" v-else-if="typeof colField == 'string' && colField === 'content'">
           <div class="content-left"><img :src="scope.row.icon"></div>
           <div class="content-right"><h1>{{ scope.row.title }}</h1>
             <!--            <p>东莞万江佳纷广场</p>
@@ -60,7 +60,7 @@
 import {computed} from "vue";
 import {checkPermi, checkRole} from "@/utils/permission"; // 权限判断函数
 
-const props = defineProps({
+const props: any = defineProps({
   data: {type: Array, default: false},
   column: {type: Array, default: false},
   buttons: {type: Object} as any, // 按钮
@@ -94,7 +94,7 @@ const getShowButton = computed(() => (item: any, row: any) => { //显示按钮
   return true;
 })
 
-function formatter(col, val) {
+function formatter(col: any, val: any) {
   if(col.formatter) {
     return col.formatter(val);
   }
