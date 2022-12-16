@@ -191,12 +191,12 @@ function doCreateOrder() {
       pay(res.data.orderId).then((res) => {
         if (res.data.code == 200) {
           let payHtml = res.data.payPage;
-          /*const div = document.createElement('div')
-        div.innerHTML = payHtml
-        document.body.appendChild(div)
-        document.forms[0].submit()*/
+          const div = document.createElement('div')
+          div.innerHTML = payHtml
+          document.body.appendChild(div)
+          document.forms[0].submit()
 
-          window.location.href = payHtml
+          //window.location.href = payHtml
         } else {
           ElMessage.error(res.data.msg);
         }

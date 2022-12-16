@@ -75,13 +75,13 @@ function load() {
   })
 }
 
-function payTypeFormater(paystatus: string) {
+function payTypeFormater(paystatus: any) {
   switch (paystatus) {
-    case '0':
+    case 0:
       return '未付款';
-    case '1':
+    case 1:
       return '已付款';
-    case '4':
+    case 4:
       return '已取消';
   }
 }
@@ -105,12 +105,12 @@ function doPay(orderId: string) {
   pay(orderId).then((res) => {
     if (res.data.code == 200) {
       let payHtml = res.data.payPage;
-      /*const div = document.createElement('div')
-    div.innerHTML = payHtml
-    document.body.appendChild(div)
-    document.forms[0].submit()*/
+      const div = document.createElement('div')
+      div.innerHTML = payHtml
+      document.body.appendChild(div)
+      document.forms[0].submit()
 
-      window.location.href = payHtml
+      //window.location.href = payHtml
     } else {
       ElMessage.error(res.data.msg);
     }

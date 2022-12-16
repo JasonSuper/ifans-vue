@@ -12,7 +12,9 @@
             <div class="index-userNameBox-CoqLt-second">
               <div class="index-limitLength-aQns6-second">{{ topthird[1].idolName }}</div>
             </div>
-            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{ topthird[1].rankHot }}</span><span style="color: #000;">热度值</span></div>
+            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{
+                topthird[1].rankHot
+              }}</span><span style="color: #000;">热度值</span></div>
             <el-button class="index-joinIn-vr5CQ" type="danger">打Call</el-button>
           </div>
 
@@ -23,7 +25,9 @@
             <div class="index-userNameBox-CoqLt-first">
               <div class="index-limitLength-aQns6-first">{{ topthird[0].idolName }}</div>
             </div>
-            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{ topthird[0].rankHot }}</span><span style="color: #000;">热度值</span></div>
+            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{
+                topthird[0].rankHot
+              }}</span><span style="color: #000;">热度值</span></div>
             <el-button class="index-joinIn-vr5CQ" type="danger">打Call</el-button>
           </div>
 
@@ -34,7 +38,9 @@
             <div class="index-userNameBox-CoqLt-third">
               <div class="index-limitLength-aQns6-third">{{ topthird[2].idolName }}</div>
             </div>
-            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{ topthird[2].rankHot }}</span><span style="color: #000;">热度值</span></div>
+            <div class="index-hotNum-ONNEy"><span style="color: #000; margin-right: 5px;">{{
+                topthird[2].rankHot
+              }}</span><span style="color: #000;">热度值</span></div>
             <el-button class="index-joinIn-vr5CQ" type="danger">打Call</el-button>
           </div>
         </div>
@@ -66,14 +72,19 @@
                     <el-scrollbar max-height="275">
                       <div style="width: 94%; height: 275px;">
                         <el-row :gutter="20">
-                          <el-col v-if="goodsBag.length > 0" v-for="i in 1" :span="6">
-                            <el-badge :value="12" class="item">
-                              <el-card class="grid-content ep-bg-purple" shadow="hover"><img src="https://www.hjxsuper.top/img/rock.png"></el-card>
-                              大火箭
-                            </el-badge>
+                          <el-col v-for="item in goodsBag" :span="6">
+                            <el-popconfirm title="确定使用此道具?" @confirm="doHitcall(item, i)">
+                              <template #reference>
+                                <el-badge :value="item.total" class="item">
+                                  <el-card class="grid-content ep-bg-purple" shadow="hover"><img :src="item.icon">
+                                  </el-card>
+                                  <div class="goodsname" :title="item.goodsName">{{ item.goodsName }}</div>
+                                </el-badge>
+                              </template>
+                            </el-popconfirm>
                           </el-col>
 
-                          <el-empty v-if="goodsBag.length == 0" style="margin: 0 auto;" description="没有可用道具" />
+                          <el-empty v-if="goodsBag.length == 0" style="margin: 0 auto;" description="没有可用道具"/>
                         </el-row>
                       </div>
                     </el-scrollbar>
@@ -81,8 +92,9 @@
                     <div style="margin-top: 8px;">
                       <el-button type="danger" size="small" plain @click="goStore()">购买道具</el-button>
                     </div>
+
                   </el-tab-pane>
-<!--                  <el-tab-pane label="权益物品"><el-empty style="margin: 0 auto;" description="没有权益物品" /></el-tab-pane>-->
+                  <!--                  <el-tab-pane label="权益物品"><el-empty style="margin: 0 auto;" description="没有权益物品" /></el-tab-pane>-->
                 </el-tabs>
               </el-popover>
             </div>
@@ -95,9 +107,11 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-import {list} from "@/api/rank";
+import {list, bag, hitcall} from "@/api/rank";
 import type {Rank} from "@/interface/Rank";
 import router from "@/router";
+import useUserStore from "@/stores/user";
+import {ElMessage} from "element-plus";
 
 const topthird = ref([] as Rank[]);
 const other = ref([] as Rank[]);
@@ -108,6 +122,8 @@ const page = ref({
   size: 30,
   current: 0
 })
+
+const userStore = useUserStore()
 
 function load() {
   page.value.current++;
@@ -128,6 +144,35 @@ function goStore() {
   router.push("/store/list")
 }
 
+function getBag() {
+  bag().then((res) => {
+    goodsBag.value = res.data;
+  })
+}
+
+function doHitcall(item: any, i: any) {
+  let param = {
+    idolId: i.id,
+    goodsId: item.goodsId,
+    nums: 1,
+  }
+
+  if (item.total <= 0) {
+    ElMessage.error("打Call失败，您的道具数量不足！");
+  } else {
+    hitcall(param).then((res) => {
+      if (res.data.code == 200) {
+        item.total -= 1;
+        i.rankHot += res.data.rankHot;
+        ElMessage.success(res.data.msg);
+      } else {
+        ElMessage.error(res.data.msg);
+      }
+    })
+  }
+}
+
+getBag();
 load();
 </script>
 
@@ -358,6 +403,7 @@ a:hover {
 .el-row:last-child {
   margin-bottom: 0;
 }
+
 .el-col {
   border-radius: 4px;
 }
@@ -409,5 +455,11 @@ a:hover {
 
 .el-tabs__active-bar {
   background-color: #f89898;
+}
+
+.goodsname {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
