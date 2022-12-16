@@ -1,7 +1,7 @@
 <template>
   <div class="logincard-box">
     <div class="flagbox">
-      <div style="margin-left: 1rem">喜欢，唱，跳rap！</div>
+      <div style="margin-left: 1rem">喜欢唱，跳，rap！</div>
       <div>加入ifans</div>
     </div>
     <div class="login-box">
@@ -80,10 +80,10 @@ const {proxy}: any = getCurrentInstance();
 const redirect = route.query.redirect as string;
 
 const loginForm = ref({
-  email: "zz5533114@qq.com",
-  password: "zz5533114"
-  /*email: "",
-  password: ""*/
+  /*email: "zz5533114@qq.com",
+  password: "zz5533114"*/
+  email: "",
+  password: ""
 });
 
 const loginRules = {
@@ -121,6 +121,7 @@ function handleLogin() {
       }*/
       // 调用action的登录方法
       userStore.login(loginForm.value).then(() => {
+        alert(decodeURIComponent(redirect))
         router.push({path: decodeURIComponent(redirect) || "/"});
       })
     }

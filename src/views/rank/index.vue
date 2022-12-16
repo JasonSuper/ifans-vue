@@ -108,7 +108,7 @@
 <script lang="ts" setup>
 import {ref} from 'vue'
 import {list, bag, hitcall} from "@/api/rank";
-import type {Rank} from "@/interface/Rank";
+import type {Rank, GoodsBag} from "@/interface/Rank";
 import router from "@/router";
 import useUserStore from "@/stores/user";
 import {ElMessage} from "element-plus";
@@ -116,7 +116,7 @@ import {ElMessage} from "element-plus";
 const topthird = ref([] as Rank[]);
 const other = ref([] as Rank[]);
 
-const goodsBag = ref([]);
+const goodsBag = ref([] as GoodsBag[]);
 
 const page = ref({
   size: 30,

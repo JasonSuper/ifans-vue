@@ -4,7 +4,8 @@ import {getToken} from '@/utils/auth'
 import useUserStore from '@/stores/user'
 import {isRelogin} from '@/utils/request'
 
-const whiteList = ['/login', '/register', "/", "/yingyuan", "/about"];
+//const whiteList = ['/login', '/register', "/", "/yingyuan", "/about"];
+const whiteList = ['/login', '/register'];
 
 router.beforeEach((to, from, next) => {
     if (getToken()) {
@@ -36,12 +37,12 @@ router.beforeEach((to, from, next) => {
         }
     } else {
         // 没有token
-        if (whiteList.indexOf(to.path) !== -1 || !to.meta.auth) {
+        if (whiteList.indexOf(to.path) !== -1 || to.meta.auth == false) {
             // 在免登录白名单，直接进入
             next()
         } else {
             ElMessage.error("请进行登录！")
-            next("/"); // 否则全部重定向到主页
+            next("/login"); // 否则全部重定向到主页
         }
     }
 })

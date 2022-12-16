@@ -36,7 +36,7 @@ function logout() {
   console.log(userStore.avatar)
   userStore.logOut().then(() => {
     ElMessage.success("已登出");
-    router.push({path: "/yingyuan"});
+    router.push({path: "/login"});
   });
 }
 </script>

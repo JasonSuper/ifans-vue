@@ -4,3 +4,9 @@ export interface Rank {
     avatar: string,
     rankHot: string
 }
+
+export interface GoodsBag {
+    total: number
+    icon: string
+    goodsName: string
+}
