@@ -1,12 +1,14 @@
-import {getInfo, login, logout} from '@/api/login'
+import {getInfo, login, logout, refreshToken} from '@/api/login'
 import {getToken, removeToken, setToken} from '@/utils/auth'
 import {defineStore} from "pinia";
+import { encryption } from '@/utils/auth'
 
 const useUserStore = defineStore(
     'user',
     {
         state: () => ({
             token: getToken(),
+            refresh_token: '',
             name: '',
             sex: '',
             avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
@@ -16,14 +18,41 @@ const useUserStore = defineStore(
         actions: {
             // 登录
             login(userInfo: any) {
-                const email = userInfo.email.trim()
-                const password = userInfo.password
+                //const email = userInfo.email.trim()
+                //const password = userInfo.password
+                const user = encryption({
+                    data: userInfo,
+                    key: '1234567890123456',
+                    param: ['password']
+                })
+
                 return new Promise((resolve, reject) => {
-                    login(email, password).then(res => {
-                        let data = res.data
+                    login(user.email.trim(), user.password).then(res => {
+                        const { access_token, token_type, refresh_token } = res;
+                        const accessToken = token_type + ' ' + access_token;
+                        setToken(access_token)
+                        this.token = accessToken;
+                        this.refresh_token = refresh_token;
+
+                        /*let data = res.data
                         setToken(data.access_token)
-                        this.token = data.access_token
+                        this.token = data.access_token*/
                         resolve("登陆成功");
+                    }).catch(error => {
+                        reject(error)
+                    })
+                })
+            },
+            // 刷新token
+            RefreshToken() {
+                return new Promise((resolve, reject) => {
+                    refreshToken(this.refresh_token).then((res: any) => {
+                        const { access_token, token_type, refresh_token } = res;
+                        const accessToken = token_type + ' ' + access_token;
+                        setToken(access_token)
+                        this.token = accessToken;
+                        this.refresh_token = refresh_token;
+                        //resolve()
                     }).catch(error => {
                         reject(error)
                     })
@@ -33,6 +62,7 @@ const useUserStore = defineStore(
             getInfo() {
                 return new Promise((resolve, reject) => {
                     getInfo().then(res => {
+                        res = res.data
                         const user = res.user
                         const avatar = (user.avatar == "" || user.avatar == null) ? this.avatar : user.avatar;
 

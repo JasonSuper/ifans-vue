@@ -3,6 +3,32 @@
   <el-backtop :right="100" :bottom="100"/>
 </template>
 
+
+<script lang="ts" setup>
+import {onUnmounted, ref} from "vue";
+import { checkToken } from '@/api/login.js'
+import useUserStore from '@/stores/user'
+
+const userStore = useUserStore()
+
+//刷新token锁
+const refreshLock = ref(false);
+//刷新token的时间
+const refreshTime = ref('');
+
+onUnmounted(() => {
+  clearInterval(this.refreshTime)
+})
+
+function refreshToken() {
+  refreshTime.value = setInterval(() => {
+    checkToken(refreshLock, userStore, refreshTime)
+  }, 10000)
+}
+
+refreshToken();
+</script>
+
 <style>
 ::-webkit-scrollbar {
   /*滚动条整体样式*/

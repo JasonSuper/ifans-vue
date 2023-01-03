@@ -25,9 +25,6 @@
                     auto-complete="off"
                     placeholder="邮箱"
                 >
-                  <template #prefix>
-                    <svg-icon icon-class="user" class="el-input__icon input-icon"/>
-                  </template>
               </el-form-item>
             </div>
             <div class="input-group">
@@ -41,9 +38,6 @@
                     placeholder="密码"
                     @keyup.enter="handleLogin"
                 >
-                  <template #prefix>
-                    <svg-icon icon-class="password" class="el-input__icon input-icon"/>
-                  </template>
               </el-form-item>
             </div>
 <!--            <div class="form-row bottom">
@@ -89,10 +83,10 @@ const {proxy}: any = getCurrentInstance();
 const redirect = route.query.redirect as string;
 
 const loginForm = ref({
-  /*email: "zz5533114@qq.com",
-  password: "zz5533114"*/
-  email: "",
-  password: ""
+  email: "zz5533114@qq.com",
+  password: "zz5533114"
+  /*email: "",
+  password: ""*/
 });
 
 const loginRules = {

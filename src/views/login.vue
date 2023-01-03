@@ -14,7 +14,7 @@
           <!--        <h3 class="title">哥哥，这世上一切美好的事情，你的脸就占90%</h3>-->
           <el-form-item prop="email">
             <el-input
-                v-model="loginForm.email"
+                v-model="loginForm.username"
                 type="text"
                 size="large"
                 auto-complete="off"
@@ -72,6 +72,7 @@ import {getCurrentInstance, ref, watch} from 'vue';
 import useUserStore from '@/stores/user'
 import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
 
+
 const userStore = useUserStore()
 const router = useRouter();
 const route = useRoute()
@@ -80,14 +81,14 @@ const {proxy}: any = getCurrentInstance();
 const redirect = route.query.redirect as string;
 
 const loginForm = ref({
-  /*email: "zz5533114@qq.com",
+  /*username: "zz5533114@qq.com",
   password: "zz5533114"*/
-  email: "",
+  username: "",
   password: ""
 });
 
 const loginRules = {
-  email: [{required: true, trigger: "blur", message: "请输入您的邮箱"}],
+  username: [{required: true, trigger: "blur", message: "请输入您的邮箱"}],
   password: [{required: true, trigger: "blur", message: "请输入您的密码"}]
 };
 

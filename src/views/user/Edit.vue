@@ -168,6 +168,7 @@ span {
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .avatar-uploader .el-upload {
