@@ -29,9 +29,8 @@ const useUserStore = defineStore(
                 return new Promise((resolve, reject) => {
                     login(user.email.trim(), user.password).then(res => {
                         const { access_token, token_type, refresh_token } = res;
-                        const accessToken = token_type + ' ' + access_token;
                         setToken(access_token)
-                        this.token = accessToken;
+                        this.token = access_token;
                         this.refresh_token = refresh_token;
 
                         /*let data = res.data
@@ -48,9 +47,8 @@ const useUserStore = defineStore(
                 return new Promise((resolve, reject) => {
                     refreshToken(this.refresh_token).then((res: any) => {
                         const { access_token, token_type, refresh_token } = res;
-                        const accessToken = token_type + ' ' + access_token;
                         setToken(access_token)
-                        this.token = accessToken;
+                        this.token = access_token;
                         this.refresh_token = refresh_token;
                         //resolve()
                     }).catch(error => {

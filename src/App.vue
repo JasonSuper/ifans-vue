@@ -14,15 +14,15 @@ const userStore = useUserStore()
 //刷新token锁
 const refreshLock = ref(false);
 //刷新token的时间
-const refreshTime = ref('');
+const refreshTime = ref();
 
 onUnmounted(() => {
-  clearInterval(this.refreshTime)
+  clearInterval(refreshTime.value)
 })
 
 function refreshToken() {
   refreshTime.value = setInterval(() => {
-    checkToken(refreshLock, userStore, refreshTime)
+    checkToken(refreshLock, userStore, refreshTime.value)
   }, 10000)
 }
 

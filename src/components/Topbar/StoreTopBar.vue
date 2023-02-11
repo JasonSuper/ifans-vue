@@ -7,16 +7,17 @@
       </div>
 
       <div>
-        <el-input
-            v-model="searchtext"
-            placeholder="查找你的宝贝"
-            class="input-with-select"
-        >
-
+        <el-autocomplete v-model="searchtext" placeholder="查找你的宝贝" class="input-with-select"
+                         :fetch-suggestions="querySearchAsync"
+                         @select="handleSelect"
+                         ref="autocomplete"
+                         hide-loading="true"
+                         debounce="1000"
+                         @keyup.enter.native="search">
           <template #append>
-            <el-button :icon="Search" />
+            <el-button @click="search" :icon="Search" @keyup.enter.native="search()"/>
           </template>
-        </el-input>
+        </el-autocomplete>
       </div>
 
       <div class="ifans-store-header-item">
@@ -31,22 +32,31 @@
       </div>
     </div>
   </el-affix>
+
+  <SelectorWrapper ref="selectorWrapperRef" @search="search"></SelectorWrapper>
 </template>
 
 <script lang="ts" setup>
 import AvatarPopover from '@/components/Avatar/AvatarPopover.vue'
-import { Search } from '@element-plus/icons-vue'
+import SelectorWrapper from '@/components/SelectorWrapper/index.vue';
+import {Search} from '@element-plus/icons-vue'
 import {getCurrentInstance, ref} from 'vue'
 import useUserStore from "@/stores/user";
 import {useRouter} from "vue-router";
+import {search as goodsSearch, suggestGoods} from "@/api/search";
 
 const userStore = useUserStore()
 const router = useRouter()
-
 // 调用函数，获取当前组件的实例proxy，这里的proxy类似于vue2中的this
 const {proxy}: any = getCurrentInstance()
-
 const searchtext = ref("")
+const selectorWrapperRef = ref<any>();
+const suggestList = ref([]);
+const autocomplete = ref();
+const getAttrParam = () => {
+  return selectorWrapperRef.value.attrParam();
+}
+const emit = defineEmits(['searchResultEmit']);
 
 function handleLogin() {
   router.replace({
@@ -56,6 +66,50 @@ function handleLogin() {
     }
   })
 }
+
+const querySearchAsync = (queryString: string, cb: any) => {
+  if (queryString.length > 0) {
+    suggestGoods(searchtext.value).then(res => {
+      suggestList.value.length = 0;
+      for (const re of res.data) {
+        suggestList.value.push({"value": re});
+      }
+      console.log(suggestList.value);
+
+      const results = queryString
+          ? suggestList.value.filter(createFilter(queryString))
+          : suggestList.value
+      // call callback function to return suggestions
+      cb(results)
+    })
+  }
+  // else {
+  //   proxy.$refs["autocomplete"].activated = false;
+  // }
+}
+
+const createFilter = (queryString: string) => {
+  return (suggestList) => {
+    return (
+        suggestList.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+    )
+  }
+}
+
+const handleSelect = (item: any) => {
+  search();
+}
+
+// 执行查询
+const search = () => {
+  goodsSearch({matchWord: searchtext.value, attrs: getAttrParam()}).then((res: any) => {
+    if (res?.data != null) {
+      emit('searchResultEmit', res.data);
+    }
+  })
+};
+
+defineExpose({ search })
 </script>
 
 <style>

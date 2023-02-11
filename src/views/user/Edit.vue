@@ -10,7 +10,8 @@
     <div class="avatar-box">
       <el-upload
           class="avatar-uploader"
-          action="/dev-api/system/user/updateAvatar"
+          action="/dev-api/fileupload/oss/simpleUpload"
+          :data="{path: 'avatar'}"
           :headers="headerObj"
           :with-credentials="true"
           :show-file-list="false"
@@ -89,11 +90,13 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
     uploadFile
 ) => {
-  imageUrl = URL.createObjectURL(uploadFile.raw!)
-  ElMessageBox.alert("<font color='red'>头像修改成功！</font>", "头像", {
+  console.log(response);
+  imageUrl = response.data;
+  //imageUrl = URL.createObjectURL(uploadFile.raw!)
+  /*ElMessageBox.alert("<font color='red'>头像修改成功！</font>", "头像", {
     dangerouslyUseHTMLString: true,
     type: "success",
-  })
+  })*/
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
@@ -117,7 +120,7 @@ const headerObj = {
 function handleEditInfo() {
   proxy.$refs['editRef'].validate((valid: boolean) => {
     if (valid) {
-      editInfo(editForm.userName, editForm.sex).then((res) => {
+      editInfo(imageUrl, editForm.userName, editForm.sex).then((res) => {
         if (res.code == 200) {
           useUserStore().getInfo();
           ElMessage.success("修改成功！");

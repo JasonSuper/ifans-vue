@@ -35,7 +35,7 @@ export function login(username: string, password: string) {
  * 定时任务请求后端接口返回实际的有效时间，不进行本地计算避免 客户端和服务器机器时钟不一致
  * @param refreshLock
  */
-export const checkToken = (refreshLock: any, userStore: any, refreshTime: number) => {
+export const checkToken = (refreshLock: any, userStore: any, refreshTime: any) => {
   const token = userStore.token;
   // 获取当前选中的 basic 认证信息
   //const basicAuth = getStore({ name: 'basicAuth' })
@@ -53,7 +53,7 @@ export const checkToken = (refreshLock: any, userStore: any, refreshTime: number
     method: 'get',
     params: { token }
   }).then(response => {
-    const expire = response && response.data && response.data.exp
+    const expire = response && response.exp
     if (expire) {
       const expiredPeriod = expire * 1000 - new Date().getTime()
       console.log('当前token过期时间', expiredPeriod, '毫秒')
