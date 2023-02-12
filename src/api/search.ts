@@ -16,3 +16,11 @@ export function suggestGoods(keyWord: string) {
         method: 'get',
     })
 }
+
+// 随机返回5个商品名称
+export function searchRandomGoodsName() {
+    return request({
+        url: '/es/goods/searchRandomGoodsName',
+        method: 'get',
+    })
+}

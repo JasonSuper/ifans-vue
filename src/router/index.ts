@@ -52,15 +52,21 @@ const constantRoutes = [
         hidden: true
     },
     {
+        path: '/store/search',
+        name: 'storeSearch',
+        component: () => import('@/views/store/Search.vue'),
+        hidden: true
+    },
+    {
         path: '/store',
         name: 'store',
         component: () => import('@/views/store/index.vue'),
         hidden: true,
         children: [
             {
-                path: 'list',
-                name: 'list',
-                component: () => import('@/views/store/GoodsList.vue'),
+                path: 'home',
+                name: 'storeHome',
+                component: () => import('@/views/store/Home.vue'),
             },
             {
                 path: 'info/:id',

@@ -7,15 +7,15 @@
       </div>
 
       <div>
-        <el-autocomplete v-model="searchtext" placeholder="查找你的宝贝" class="input-with-select"
+        <el-autocomplete v-model="searchtext" :placeholder="randomWord" class="input-with-select"
                          :fetch-suggestions="querySearchAsync"
                          @select="handleSelect"
                          ref="autocomplete"
-                         hide-loading="true"
-                         debounce="1000"
+                         :hide-loading="true"
+                         :debounce="300"
                          @keyup.enter.native="search">
           <template #append>
-            <el-button @click="search" :icon="Search" @keyup.enter.native="search()"/>
+            <el-button @click="tosearch()" :icon="Search" @keyup.enter.native="tosearch()"/>
           </template>
         </el-autocomplete>
       </div>
@@ -32,31 +32,41 @@
       </div>
     </div>
   </el-affix>
-
-  <SelectorWrapper ref="selectorWrapperRef" @search="search"></SelectorWrapper>
 </template>
 
 <script lang="ts" setup>
 import AvatarPopover from '@/components/Avatar/AvatarPopover.vue'
-import SelectorWrapper from '@/components/SelectorWrapper/index.vue';
 import {Search} from '@element-plus/icons-vue'
 import {getCurrentInstance, ref} from 'vue'
 import useUserStore from "@/stores/user";
-import {useRouter} from "vue-router";
-import {search as goodsSearch, suggestGoods} from "@/api/search";
+import {useRoute, useRouter} from "vue-router";
+import {search as goodsSearch, suggestGoods, searchRandomGoodsName} from "@/api/search";
 
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute();
 // 调用函数，获取当前组件的实例proxy，这里的proxy类似于vue2中的this
 const {proxy}: any = getCurrentInstance()
-const searchtext = ref("")
-const selectorWrapperRef = ref<any>();
-const suggestList = ref([]);
+const searchtext = ref(route.query.matchWord as string)
+const suggestList = ref([] as any);
+const randomWordList = ref([] as any);
+const randomWord = ref();
 const autocomplete = ref();
-const getAttrParam = () => {
-  return selectorWrapperRef.value.attrParam();
-}
 const emit = defineEmits(['searchResultEmit']);
+const randomIndex = ref(1);
+
+searchRandomGoodsName().then(res => {
+  if (res.code == 200) {
+    randomWordList.value = res.data.data;
+    randomWord.value = res.data.data[0];
+
+    // 定时变换查询词
+    setInterval(() => {
+      if (randomIndex.value == randomWordList.value.length - 1) randomIndex.value = 0;
+      randomWord.value = randomWordList.value[randomIndex.value++];
+    }, 5000);
+  }
+})
 
 function handleLogin() {
   router.replace({
@@ -74,7 +84,6 @@ const querySearchAsync = (queryString: string, cb: any) => {
       for (const re of res.data) {
         suggestList.value.push({"value": re});
       }
-      console.log(suggestList.value);
 
       const results = queryString
           ? suggestList.value.filter(createFilter(queryString))
@@ -89,7 +98,7 @@ const querySearchAsync = (queryString: string, cb: any) => {
 }
 
 const createFilter = (queryString: string) => {
-  return (suggestList) => {
+  return (suggestList: any) => {
     return (
         suggestList.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
     )
@@ -97,19 +106,35 @@ const createFilter = (queryString: string) => {
 }
 
 const handleSelect = (item: any) => {
-  search();
+  tosearch();
 }
 
 // 执行查询
-const search = () => {
-  goodsSearch({matchWord: searchtext.value, attrs: getAttrParam()}).then((res: any) => {
-    if (res?.data != null) {
-      emit('searchResultEmit', res.data);
-    }
-  })
+const tosearch = () => {
+  emptyFormater();
+  if (route.path == '/store/search') {
+    goodsSearch({matchWord: searchtext.value}).then((res: any) => {
+      if (res?.data != null) {
+        emit('searchResultEmit', res);
+      }
+    })
+  } else {
+    const { href } = router.resolve({ path: '/store/search', query: {matchWord: searchtext.value} });
+    window.open(href, '_blank');
+  }
 };
 
-defineExpose({ search })
+function matchWord() {
+  return searchtext.value;
+}
+
+function emptyFormater() {
+  if(searchtext.value == undefined || searchtext.value.length == 0) {
+    searchtext.value = randomWord.value;
+  }
+}
+
+defineExpose({ tosearch, matchWord })
 </script>
 
 <style>

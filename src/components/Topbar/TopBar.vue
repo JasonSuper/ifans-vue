@@ -60,7 +60,7 @@ const handleSelect = (key: String, keyPath: String[]) => {
       router.push({path: '/rank'})
       break;
     case '4':
-      router.push({path: '/store/list'})
+      router.push({path: '/store/home'})
       break;
     default:
       break;

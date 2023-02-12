@@ -1,7 +1,7 @@
 <template>
-  <StoreTopBar ref="stbRef" @search-result-emit="searchResultEmit"></StoreTopBar>
+  <SelectorWrapper ref="selectorWrapperRef" @search="search"></SelectorWrapper>
 
-  <ul v-infinite-scroll="doSearch" :infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto">
+  <ul v-infinite-scroll="search" :infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto">
     <!--    <li v-for="i in count" :key="i" class="infinite-list-item">{{ i }}</li>-->
     <div class="project-list-wrapper">
       <div class="project-list">
@@ -89,23 +89,24 @@
 </template>
 
 <script lang="ts" setup>
-import {useRouter} from "vue-router";
+import '@/assets/style/stores/GoodsList.scss'
+
+import {useRoute, useRouter} from "vue-router";
 import {getCurrentInstance, nextTick, ref} from "vue";
-import {list} from "@/api/store";
 import type {Store} from '@/interface/Store';
-import StoreTopBar from '@/components/Topbar/StoreTopBar.vue';
+import SelectorWrapper from '@/components/SelectorWrapper/index.vue';
+import {search as goodsSearch} from "@/api/search";
 
 const router = useRouter();
+const route = useRoute();
 const {proxy}: any = getCurrentInstance();
 const storelist = ref([] as Store[]);
-const page = ref({
-  size: 10,
-  current: 0
-});
-const stbRef = ref<any>();
-const doSearch = () => {
-  return stbRef.value.search();
+const page = ref({size: 10, current: 0});
+const selectorWrapperRef = ref<any>();
+const getAttrParam = () => {
+  return selectorWrapperRef.value.attrParam();
 }
+const matchWord = ref(route.query.matchWord);
 
 function load() {
   page.value.current++;
@@ -117,138 +118,24 @@ function load() {
   // })
 }
 
-function searchResultEmit(res) {
-  storelist.value.length = 0;
-  storelist.value = storelist.value.concat(res.product);
-}
-
 function goinfo(id: string) {
-  /*const { href } = router.resolve({ path: '/store/info/' + id })
-  window.open(href, '_blank')*/
+  // const { href } = router.resolve({ path: '/store/info/' + id })
+  // window.open(href, '_blank')
   router.push({path: '/store/info/' + id});
 }
 
+function search() {
+  goodsSearch({matchWord: matchWord.value, attrs: getAttrParam()}).then((res: any) => {
+    if (res?.data != null) {
+      storelist.value.length = 0;
+      storelist.value = storelist.value.concat(res.data.product);
+    }
+  })
+};
+
 // 待组件渲染完成才调用子组件的方法p
 nextTick(() => {
-  doSearch();
+  //doSearch();
+  search();
 })
 </script>
-
-<style scoped>
-.infinite-list {
-  max-height: 1200px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  width: 100%;
-}
-
-.project-list, .project-list-wrapper {
-  width: 1200px;
-  margin: 0 auto;
-}
-
-.project-list-item {
-  cursor: pointer;
-  display: flex;
-  position: relative;
-  margin-top: 60px;
-  margin-right: 40px;
-  width: 560px;
-  height: 237px;
-  background: #fff;
-  box-shadow: 0 0 15px 0 hsl(203deg 6% 45% / 9%);
-  border-radius: 8px;
-  float: left;
-  transition: transform .2s;
-}
-
-.project-list-item-img {
-  transition: transform .1s;
-  background: #fff;
-  box-shadow: 3px 3px 2px 0 hsl(203deg 6% 45% / 30%);
-  border-radius: 8px;
-  left: 20px;
-  bottom: 24px;
-  position: absolute;
-  width: 175px;
-  height: 233px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-.project-list-item-detail {
-  margin-left: 223px;
-}
-
-.project-list-item-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  margin-top: 30px;
-  width: 286px;
-  height: 48px;
-  font-size: 18px;
-  color: #222;
-  letter-spacing: 0;
-  line-height: 24px;
-}
-
-.project-list-item-time {
-  margin-top: 19px;
-  display: flex;
-  align-items: center;
-  height: 17px;
-  font-size: 14px;
-  color: #999;
-}
-
-.project-list-item-price .not-free {
-  display: flex;
-  align-items: flex-end;
-}
-
-.project-list-item-price {
-  margin-top: 40px;
-  color: #f25d8e;
-}
-
-.price-symbol {
-  align-self: flex-end;
-  font-size: 18px;
-  line-height: 18px;
-}
-
-.price {
-  margin-left: 4px;
-  font-size: 28px;
-  letter-spacing: 1px;
-  line-height: 24px;
-}
-
-.start {
-  line-height: 12px;
-  margin-left: 5px;
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 2px;
-}
-
-.promo-item {
-  display: inline-block;
-  max-width: 80px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: auto;
-  height: 16px;
-  line-height: 13.5px;
-  margin-left: 8px;
-  color: #fb7299;
-  font-size: 12px;
-  text-align: center;
-  border: 1px solid #fb7299;
-  border-radius: 1px;
-}
-</style>
