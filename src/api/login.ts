@@ -55,7 +55,7 @@ export const checkToken = (refreshLock: any, userStore: any, refreshTime: any) =
         const expire = response && response.exp
         if (expire) {
             const expiredPeriod = expire * 1000 - new Date().getTime()
-            //console.log('当前token过期时间', expiredPeriod, '毫秒')
+            console.log('当前token过期时间', expiredPeriod, '毫秒')
             //小于半小时自动续约
             if (expiredPeriod <= 1800000) {
                 if (!refreshLock) {

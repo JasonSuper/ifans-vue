@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 import * as CryptoJS from 'crypto-js'
 
 const TokenKey = 'Admin-Token'
+const RefreshTokenKey = 'Refresh-Token'
 
 const ExpiresInKey = 'Admin-Expires-In'
 
@@ -11,6 +12,15 @@ export function getToken() {
 
 export function setToken(token: string) {
   return Cookies.set(TokenKey, token)
+}
+
+
+export function getRefreshToken() {
+  return Cookies.get(RefreshTokenKey)
+}
+
+export function setRefreshToken(token: string) {
+  return Cookies.set(RefreshTokenKey, token)
 }
 
 export function removeToken() {

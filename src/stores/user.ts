@@ -1,5 +1,5 @@
 import {getInfo, login, logout, refreshToken} from '@/api/login'
-import {getToken, removeToken, setToken} from '@/utils/auth'
+import {getRefreshToken, getToken, removeToken, setRefreshToken, setToken} from '@/utils/auth'
 import {defineStore} from "pinia";
 import { encryption } from '@/utils/auth'
 
@@ -8,7 +8,7 @@ const useUserStore = defineStore(
     {
         state: () => ({
             token: getToken(),
-            refresh_token: '',
+            refresh_token: getRefreshToken(),
             name: '',
             sex: '',
             avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
@@ -30,6 +30,7 @@ const useUserStore = defineStore(
                     login(user.email.trim(), user.password).then(res => {
                         const { access_token, token_type, refresh_token } = res;
                         setToken(access_token)
+                        setRefreshToken(refresh_token)
                         this.token = access_token;
                         this.refresh_token = refresh_token;
 
@@ -45,9 +46,11 @@ const useUserStore = defineStore(
             // 刷新token
             RefreshToken() {
                 return new Promise((resolve, reject) => {
-                    refreshToken(this.refresh_token).then((res: any) => {
+                    console.log(getRefreshToken())
+                    refreshToken(getRefreshToken() as string).then((res: any) => {
                         const { access_token, token_type, refresh_token } = res;
                         setToken(access_token)
+                        setRefreshToken(refresh_token)
                         this.token = access_token;
                         this.refresh_token = refresh_token;
                         //resolve()

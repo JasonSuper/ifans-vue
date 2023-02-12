@@ -22,7 +22,7 @@ onUnmounted(() => {
 
 function refreshToken() {
   refreshTime.value = setInterval(() => {
-    checkToken(refreshLock, userStore, refreshTime.value)
+    checkToken(refreshLock.value, userStore, refreshTime.value)
   }, 10000)
 }
 
