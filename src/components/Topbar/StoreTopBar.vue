@@ -12,10 +12,9 @@
                          @select="handleSelect"
                          ref="autocomplete"
                          :hide-loading="true"
-                         :debounce="300"
-                         @keyup.enter.native="search">
+                         :debounce="300">
           <template #append>
-            <el-button @click="tosearch()" :icon="Search" @keyup.enter.native="tosearch()"/>
+            <el-button @click="tosearch()" :icon="Search"/>
           </template>
         </el-autocomplete>
       </div>
