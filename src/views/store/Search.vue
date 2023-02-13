@@ -56,7 +56,7 @@ function goinfo(id: string) {
   router.push({path: '/store/info/' + id});
 }
 
-function searchResultEmit(res) {
+function searchResultEmit(res: any) {
   if (res?.data != null) {
     storelist.value.length = 0;
     storelist.value = storelist.value.concat(res.data.product);

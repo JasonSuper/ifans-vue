@@ -46,7 +46,6 @@ const useUserStore = defineStore(
             // 刷新token
             RefreshToken() {
                 return new Promise((resolve, reject) => {
-                    console.log(getRefreshToken())
                     refreshToken(getRefreshToken() as string).then((res: any) => {
                         const { access_token, token_type, refresh_token } = res;
                         setToken(access_token)
